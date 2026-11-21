@@ -11,7 +11,36 @@
 <meta property="og:description" content="Two-day workshop on agriculture and agri-entrepreneurship by UCCIL and Maruti Media." />
 <meta property="og:image" content="assets/press-meet.jpg" />
 <link rel="icon" href="assets/farming-logo.jpg" />
-<noscript><style>#loader{display:none!important}body.loading{overflow:auto!important}</style></noscript>
+<link rel="shortcut icon" href="assets/farming-logo.jpg" />
+<link rel="apple-touch-icon" href="assets/farming-logo.jpg" />
+<noscript><style>#loader{display:none!important}body.loading{overflow:auto!important}/* footer partners */
+.fpart{margin-top:34px;padding-top:26px;border-top:1px solid rgba(255,255,255,.16)}
+.fplist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.fp{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.fp .flabel{margin:0}
+.tile{background:#fff;border-radius:14px;min-height:96px;display:flex;align-items:center;justify-content:center;gap:14px;padding:12px 18px;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.tile img{height:62px;width:auto;max-width:150px;object-fit:contain}
+.tile img.u{height:66px}
+.tile .wm{font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:1.2rem;line-height:1.1;color:var(--gd);text-align:left}
+.tile .wm b{color:var(--g1);display:block}
+.tile .wm small{display:block;margin-top:5px;font-family:Inter,system-ui,sans-serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+@media(max-width:960px){.tl{--tm:128px;--rail:54px}.fplist{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){
+ .tl{--tm:0px;--rail:46px}
+ .dayhead{margin-left:0;flex-wrap:wrap}
+ .row,.row.brk{--c:15px}
+ .row{grid-template-columns:var(--rail) 1fr;grid-template-areas:"rail tm" "rail card"}
+ .tm{text-align:left;display:flex;align-items:center;flex-wrap:wrap;gap:2px 10px;padding:0;margin-bottom:8px;min-height:30px}
+ .tm small{display:inline}
+ .tm em{margin-top:0}
+ .node{--s:36px}
+ .row.brk .node{--s:26px}
+ .slot{padding:16px 18px;margin-bottom:18px}
+ .row.brk .slot{padding:10px 16px}
+ .slot:hover{transform:none}
+ .fplist{grid-template-columns:1fr}
+}
+</style></noscript>
 <script>function fb(i){i.onerror=null;if(i.dataset.fb){i.referrerPolicy="no-referrer";i.src=i.dataset.fb}}</script>
 <style>
 :root{--bg:#f7fbf4;--bg2:#ecf5e6;--line:#dbe8d5;--text:#15301f;--muted:#52665a;--g1:#15803d;--g2:#65a30d;--gd:#0f3d22;--ind:#3b2a8f;--or:#ea7a00;--r:20px;--sh:0 12px 34px rgba(15,61,34,.10)}
@@ -34,21 +63,30 @@ a{color:inherit}
 .btn:hover .i{transform:translateX(3px)}
 #bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--g1),var(--or));z-index:90}
 /* loader */
-#loader{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;text-align:center;background:radial-gradient(700px 380px at 85% 0,rgba(101,163,13,.2),transparent 70%),radial-gradient(600px 360px at 0 100%,rgba(234,122,0,.12),transparent 70%),linear-gradient(180deg,#eef7e4,#f7fbf4);transition:opacity .7s ease,visibility .7s ease}
+#loader{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;overflow:hidden;background:radial-gradient(700px 380px at 85% 0,rgba(101,163,13,.2),transparent 70%),radial-gradient(600px 360px at 0 100%,rgba(234,122,0,.1),transparent 70%),linear-gradient(180deg,#eef7e4,#f7fbf4);transition:opacity .7s ease,visibility .7s ease}
 #loader.done{opacity:0;visibility:hidden}
-.ld-frame{position:relative;width:clamp(150px,34vw,200px);padding:8px;border-radius:24px;background:linear-gradient(135deg,var(--g1),var(--g2) 55%,var(--or));box-shadow:0 26px 60px rgba(15,61,34,.28);animation:ldin .9s cubic-bezier(.2,.7,.2,1) both,ldfloat 3.2s ease-in-out .9s infinite}
-.ld-frame img{width:100%;aspect-ratio:940/1027;object-fit:cover;border:4px solid #fff;border-radius:16px;background:#fff}
-.ld-frame:after{content:"";position:absolute;inset:-14px;border-radius:34px;border:2px solid var(--g2);opacity:0;animation:ldring 2s ease-out infinite}
-.ld-title{font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.3rem,4.5vw,1.8rem);color:var(--gd);line-height:1.2;animation:ldin .9s .15s both}
+.ld-center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:16px;padding-bottom:8vh}
+.ld-emblem{width:clamp(124px,30vw,160px);filter:drop-shadow(0 18px 30px rgba(15,61,34,.22));animation:ldin .8s both}
+.ld-emblem svg{display:block;width:100%;height:auto}
+.ld-plant{transform-box:fill-box;transform-origin:50% 100%;animation:ldgrow 1.3s .3s cubic-bezier(.3,1.3,.5,1) backwards,ldsway 3.4s 1.8s ease-in-out infinite alternate}
+.ld-sun{animation:ldsun 1.8s .1s cubic-bezier(.2,.8,.2,1) backwards}
+.ld-title{font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.7rem,6vw,2.6rem);line-height:1.1;color:var(--gd);font-weight:700;animation:ldin .9s .2s both}
 .ld-title em{font-style:normal;color:var(--or)}
-.ld-sub{font-family:Georgia,serif;font-style:italic;color:var(--ind);margin-top:-14px;animation:ldin .9s .25s both}
-.ld-bar{width:min(240px,70vw);height:4px;border-radius:4px;background:var(--line);overflow:hidden;animation:ldin .9s .3s both}
-.ld-bar span{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--g1),var(--or));animation:ldfill 1.5s cubic-bezier(.4,.1,.2,1) forwards}
-.ld-txt{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:-10px}
+.ld-sub{font-family:Georgia,serif;font-style:italic;color:var(--ind);font-size:1.1rem;margin-top:-8px;animation:ldin .9s .3s both}
+.ld-meter{display:flex;align-items:center;gap:12px;width:min(300px,76vw);margin-top:6px;animation:ldin .9s .4s both}
+.ld-bar{flex:1;height:5px;border-radius:5px;background:var(--line);overflow:hidden}
+.ld-bar span{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,var(--g1),var(--or))}
+.ld-meter b{min-width:40px;text-align:right;font-size:.85rem;color:var(--gd);font-variant-numeric:tabular-nums}
+.ld-txt{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);animation:ldin .9s .5s both}
+.ld-hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:24vh;min-height:120px;pointer-events:none}
+.ld-hills .a{fill:#d6eac6}.ld-hills .b{fill:#bddd9f}.ld-hills .c{fill:#a2cf79}
+.ld-hills path{animation:ldhill 1.2s cubic-bezier(.2,.8,.2,1) backwards}
+.ld-hills .b{animation-delay:.1s}.ld-hills .c{animation-delay:.2s}
 @keyframes ldin{from{opacity:0;transform:translateY(18px)}}
-@keyframes ldfloat{50%{transform:translateY(-8px)}}
-@keyframes ldring{0%{opacity:.7;transform:scale(.94)}100%{opacity:0;transform:scale(1.1)}}
-@keyframes ldfill{to{width:100%}}
+@keyframes ldgrow{from{transform:scaleY(0)}}
+@keyframes ldsway{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+@keyframes ldsun{from{transform:translateY(40px)}}
+@keyframes ldhill{from{transform:translateY(40px);opacity:0}}
 /* topbar + nav */
 .topbar{background:var(--gd);color:#cfe6d3;font-size:.8rem}
 .topbar .container{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:38px;flex-wrap:wrap;padding-block:6px}
@@ -185,28 +223,43 @@ h2:after{content:"";display:block;width:56px;height:4px;border-radius:4px;backgr
 .tab:hover{transform:translateY(-2px)}
 .tab[aria-selected=true]{background:var(--g1);color:#fff;box-shadow:0 10px 22px rgba(21,128,61,.28)}
 .panel[hidden]{display:none}
-.tl{--pl:50px;--lx:14px;position:relative;padding-left:var(--pl)}
-.tl:before{content:"";position:absolute;left:calc(var(--lx) - 1px);top:14px;bottom:14px;width:2px;border-radius:2px;background:linear-gradient(var(--g1),var(--or));transform-origin:top;animation:draw 1.2s cubic-bezier(.4,.1,.2,1) both}
-@keyframes draw{from{transform:scaleY(0)}}
-.slot{position:relative;display:grid;grid-template-columns:190px 1fr;gap:18px;padding:20px 24px;margin-bottom:16px;transition:transform .3s,box-shadow .3s;animation:slotin .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * .13s + .15s)}
+.tl{--tm:150px;--rail:60px;position:relative}
+.dayhead{display:flex;align-items:center;gap:14px;margin:0 0 22px calc(var(--tm) + var(--rail));padding:14px 18px;border-radius:16px;background:linear-gradient(135deg,var(--gd),var(--g1));color:#fff;box-shadow:0 14px 30px rgba(15,61,34,.22);animation:slotin .7s cubic-bezier(.2,.7,.2,1) backwards}
+.dayhead .di{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.14);display:grid;place-items:center;flex:none}
+.dayhead b{display:block;font-size:1rem;line-height:1.3}
+.dayhead small{display:block;font-size:.8rem;color:#cfe6d3}
+.dayhead .dc{margin-left:auto;font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.16);white-space:nowrap}
+.row{--c:34px;display:grid;grid-template-columns:var(--tm) var(--rail) 1fr;grid-template-areas:"tm rail card"}
+.row.brk{--c:23px}
+.tm{grid-area:tm;text-align:right;padding:calc(var(--c) - 10px) 4px 0 0;line-height:1.3;animation:fadein .6s backwards;animation-delay:calc(var(--i) * .14s + .2s)}
+.tm b{display:block;color:var(--or);font-size:.98rem}
+.tm small{display:block;color:var(--muted);font-size:.8rem}
+.tm em{display:inline-block;margin-top:6px;font-style:normal;font-size:.72rem;font-weight:600;padding:2px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--gd)}
+.row.brk .tm b{color:var(--muted);font-weight:600}
+.rail{grid-area:rail;position:relative;display:flex;justify-content:center}
+.rail:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:#a9cdb3;transform-origin:top;animation:draw .55s ease-out backwards;animation-delay:calc(var(--i) * .14s + .25s)}
+.row:first-of-type .rail:before{top:var(--c)}
+.row:last-of-type .rail:before{bottom:auto;height:var(--c)}
+.node{--s:42px;position:relative;z-index:1;flex:none;margin-top:calc(var(--c) - var(--s) / 2);width:var(--s);height:var(--s);border-radius:50%;display:grid;place-items:center;background:#fff;border:3px solid var(--g1);color:var(--g1);font-family:Georgia,serif;font-weight:700;font-size:.95rem;box-shadow:0 0 0 6px var(--bg2);transition:transform .3s,background .3s,color .3s,border-color .3s;animation:pop .55s cubic-bezier(.3,1.6,.5,1) backwards;animation-delay:calc(var(--i) * .14s + .2s)}
+.node .i{width:18px;height:18px}
+.row.hi .node{background:var(--g1);color:#fff}
+.row.brk .node{--s:28px;border-width:2px;border-color:#9bb8a3;color:#6f8a77;background:#f6faf3}
+.row.brk .node .i{width:13px;height:13px}
+.row:hover .node{transform:scale(1.12);background:var(--g1);border-color:var(--g1);color:#fff}
+.slot{grid-area:card;margin-bottom:16px;padding:20px 24px;transition:transform .3s,box-shadow .3s;animation:slotin .7s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i) * .14s + .15s)}
 .slot:hover{transform:translateX(5px);box-shadow:0 18px 40px rgba(15,61,34,.15)}
-.slot:nth-child(1){--i:0}.slot:nth-child(2){--i:1}.slot:nth-child(3){--i:2}.slot:nth-child(4){--i:3}.slot:nth-child(5){--i:4}.slot:nth-child(6){--i:5}.slot:nth-child(7){--i:6}
-@keyframes slotin{from{opacity:0;transform:translateX(-26px)}}
-.slot:before{content:"";position:absolute;width:20px;height:20px;left:calc(var(--lx) - 10px - var(--pl));top:22px;border-radius:50%;background:#fff;border:4px solid var(--g1);box-shadow:0 0 0 5px var(--bg2);animation:pop .55s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--i,0) * .13s + .15s)}
-@keyframes pop{from{transform:scale(0)}}
-.slot time{display:flex;align-items:flex-start;gap:8px;font-weight:700;color:var(--or);font-size:.95rem;line-height:1.4}
-.slot time .i{margin-top:3px}
+.row:last-of-type .slot{margin-bottom:0}
 .slot h3{font-size:1.02rem;margin-bottom:6px;color:var(--gd)}
 .slot .t{display:flex;flex-wrap:wrap;gap:6px}
 .slot .t span{font-size:.8rem;padding:3px 10px;border-radius:999px;background:var(--bg2);color:var(--gd)}
 .slot p{color:var(--muted);font-size:.9rem;margin-bottom:6px}
-.slot.brk{padding:11px 24px;box-shadow:none;background:#f6faf3;align-items:center}
-.slot.brk:hover{transform:none;box-shadow:none}
-.slot.brk:before{width:12px;height:12px;left:calc(var(--lx) - 6px - var(--pl));top:50%;margin-top:-6px;border:3px solid #9bb8a3;box-shadow:0 0 0 5px var(--bg2)}
-.slot.brk time{color:var(--muted);font-weight:600}
-.slot.brk h3{display:flex;align-items:center;gap:8px;font-weight:500;font-size:.93rem;margin:0;color:var(--muted)}
-.slot.hi{border-left:5px solid var(--ind)}
-.slot.hi:before{background:var(--g1);border-color:var(--g1)}
+.row.brk .slot{padding:10px 20px;box-shadow:none;background:#f6faf3}
+.row.brk.row.brk .slot h3{margin:0;font-weight:500;font-size:.93rem;color:var(--muted)}
+.row.hi .slot{border-left:5px solid var(--ind)}
+@keyframes draw{from{transform:scaleY(0)}}
+@keyframes slotin{from{opacity:0;transform:translateX(-26px)}}
+@keyframes pop{from{transform:scale(0)}}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}}
 /* audience */
 .aud{padding:24px;text-align:center;transition:.3s}
 .aud:hover{transform:translateY(-6px)}
@@ -309,12 +362,6 @@ footer a:hover{color:#fff}
 @media(max-width:600px){
  section{padding:46px 0}
  .grid3,.honor,.past{grid-template-columns:1fr}
- .tl{--pl:38px;--lx:11px}
- .slot{grid-template-columns:1fr;gap:6px;padding:16px 18px}
- .slot.brk{padding:10px 16px}
- .slot:before{width:18px;height:18px;left:calc(var(--lx) - 9px - var(--pl));border-width:3px;top:18px}
- .slot.brk:before{width:12px;height:12px;left:calc(var(--lx) - 6px - var(--pl))}
- .slot:hover{transform:none}
  .pair{grid-template-columns:1fr}
  .cta .btn,.dl .btn{width:100%}
  .fgrid{grid-template-columns:1fr}
@@ -366,16 +413,38 @@ footer a:hover{color:#fff}
  <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></symbol>
  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4"/></symbol>
+ <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></symbol>
  <symbol id="i-play" viewBox="0 0 24 24"><path d="m6 4 14 8-14 8z"/></symbol>
 </svg>
 
 <!-- loader -->
-<div id="loader" role="status" aria-live="polite">
- <div class="ld-frame"><img src="assets/brochure-cover-hero.jpg" alt="Farming in Odisha 2.0" width="940" height="1027"></div>
- <div class="ld-title">Farming in Odisha <em>2.0</em></div>
- <div class="ld-sub">a birds’ eyeview</div>
- <div class="ld-bar"><span></span></div>
- <div class="ld-txt">Loading experience</div>
+<div id="loader" role="status" aria-live="polite" aria-label="Loading Farming in Odisha 2.0">
+ <svg class="ld-hills" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true"><path class="a" d="M0 120C240 60 480 150 720 110S1200 140 1440 90V220H0z"/><path class="b" d="M0 150C260 100 500 170 760 140S1220 170 1440 130V220H0z"/><path class="c" d="M0 185C300 150 560 200 820 175S1250 200 1440 170V220H0z"/></svg>
+ <div class="ld-center">
+  <div class="ld-emblem">
+   <svg viewBox="0 0 128 128" aria-hidden="true">
+    <defs><linearGradient id="ldg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#15803d"/><stop offset="1" stop-color="#ea7a00"/></linearGradient><clipPath id="ldc"><circle cx="64" cy="64" r="48"/></clipPath></defs>
+    <circle cx="64" cy="64" r="58" fill="none" stroke="#dbe8d5" stroke-width="4"/>
+    <circle id="ldring" cx="64" cy="64" r="58" fill="none" stroke="url(#ldg)" stroke-width="4" stroke-linecap="round" stroke-dasharray="364.4" stroke-dashoffset="364.4" transform="rotate(-90 64 64)"/>
+    <g clip-path="url(#ldc)">
+     <rect width="128" height="128" fill="#f4faea"/>
+     <circle class="ld-sun" cx="64" cy="54" r="15" fill="#ea7a00"/>
+     <path d="M10 98C34 84 52 100 72 92S108 92 120 88V120H10z" fill="#65a30d"/>
+     <path d="M10 106C40 96 60 110 84 102S112 104 120 100V120H10z" fill="#15803d"/>
+     <g class="ld-plant">
+      <path d="M64 104V72" stroke="#0f3d22" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M64 86C52 86 44 78 43 68 55 68 63 75 64 86z" fill="#15803d"/>
+      <path d="M64 78C75 78 83 70 84 60 72 60 64 67 64 78z" fill="#65a30d"/>
+      <path d="M64 72C60 66 60 60 64 54 68 60 68 66 64 72z" fill="#15803d"/>
+     </g>
+    </g>
+   </svg>
+  </div>
+  <div class="ld-title">Farming in Odisha <em>2.0</em></div>
+  <div class="ld-sub">a birds’ eyeview</div>
+  <div class="ld-meter"><div class="ld-bar"><span id="ldbar"></span></div><b id="ldpct">0%</b></div>
+  <div class="ld-txt">11 &amp; 12 December 2026 · Bhubaneswar</div>
+ </div>
 </div>
 
 <div id="bar"></div>
@@ -531,19 +600,21 @@ footer a:hover{color:#fff}
    <button class="tab" role="tab" aria-selected="false" aria-controls="d2" id="t2"><svg class="i"><use href="#i-cal"/></svg>Day 2 · 12 Dec 2026</button>
   </div>
   <div class="panel tl" id="d1" role="tabpanel" aria-labelledby="t1">
-   <div class="slot card hi"><time><svg class="i"><use href="#i-clock"/></svg>10:00 – 11:30 AM</time><div><h3>Inaugural Ceremony</h3><p>Drivers of Agri Food Systems</p><div class="t"><span>Agri Entrepreneurship</span><span>Agri Finance</span><span>Dissemination of Agri Policy</span></div></div></div>
-   <div class="slot card brk"><time><svg class="i"><use href="#i-clock"/></svg>11:30 AM</time><h3><svg class="i"><use href="#i-coffee"/></svg>Tea break</h3></div>
-   <div class="slot card"><time><svg class="i"><use href="#i-clock"/></svg>12:30 – 2:00 PM</time><div><h3>Session I: Opportunities &amp; Constraints in Agri Entrepreneurship</h3><div class="t"><span>Paddy</span><span>Spices Farming</span><span>Fertilizers &amp; Pesticides</span><span>Agro Forestry</span><span>FPOs</span></div></div></div>
-   <div class="slot card brk"><time><svg class="i"><use href="#i-clock"/></svg>2:00 PM</time><h3><svg class="i"><use href="#i-utensils"/></svg>Lunch break</h3></div>
-   <div class="slot card"><time><svg class="i"><use href="#i-clock"/></svg>3:30 – 5:30 PM</time><div><h3>Session II: Opportunities &amp; Constraints in Agri Entrepreneurship</h3><div class="t"><span>Coconut</span><span>Cashew</span><span>Coffee</span><span>Floriculture</span><span>Mushroom</span><span>Organic Farming</span><span>Farm Mechanisation &amp; Drip Irrigation</span><span>Laboratory Support to Farmers</span></div></div></div>
-   <div class="slot card brk"><time><svg class="i"><use href="#i-clock"/></svg>5:30 PM</time><h3><svg class="i"><use href="#i-coffee"/></svg>Hi-Tea</h3></div>
+   <header class="dayhead"><span class="di"><svg class="i"><use href="#i-cal"/></svg></span><div><b>Friday, 11 December 2026</b><small>Conference Hall, UCCIL, Bhubaneswar</small></div><span class="dc">Inaugural + 2 sessions</span></header>
+   <div class="row hi" style="--i:0"><div class="tm"><b>10:00 AM</b><small>to 11:30 AM</small><em>1 h 30 min</em></div><div class="rail"><span class="node"><svg class="i"><use href="#i-mic"/></svg></span></div><div class="slot card"><h3>Inaugural Ceremony</h3><p>Drivers of Agri Food Systems</p><div class="t"><span>Agri Entrepreneurship</span><span>Agri Finance</span><span>Dissemination of Agri Policy</span></div></div></div>
+   <div class="row brk" style="--i:1"><div class="tm"><b>11:30 AM</b></div><div class="rail"><span class="node"><svg class="i"><use href="#i-coffee"/></svg></span></div><div class="slot card"><h3>Tea break</h3></div></div>
+   <div class="row " style="--i:2"><div class="tm"><b>12:30 PM</b><small>to 2:00 PM</small><em>1 h 30 min</em></div><div class="rail"><span class="node">I</span></div><div class="slot card"><h3>Session I: Opportunities &amp; Constraints in Agri Entrepreneurship</h3><div class="t"><span>Paddy</span><span>Spices Farming</span><span>Fertilizers &amp; Pesticides</span><span>Agro Forestry</span><span>FPOs</span></div></div></div>
+   <div class="row brk" style="--i:3"><div class="tm"><b>2:00 PM</b></div><div class="rail"><span class="node"><svg class="i"><use href="#i-utensils"/></svg></span></div><div class="slot card"><h3>Lunch break</h3></div></div>
+   <div class="row " style="--i:4"><div class="tm"><b>3:30 PM</b><small>to 5:30 PM</small><em>2 h</em></div><div class="rail"><span class="node">II</span></div><div class="slot card"><h3>Session II: Opportunities &amp; Constraints in Agri Entrepreneurship</h3><div class="t"><span>Coconut</span><span>Cashew</span><span>Coffee</span><span>Floriculture</span><span>Mushroom</span><span>Organic Farming</span><span>Farm Mechanisation &amp; Drip Irrigation</span><span>Laboratory Support to Farmers</span></div></div></div>
+   <div class="row brk" style="--i:5"><div class="tm"><b>5:30 PM</b></div><div class="rail"><span class="node"><svg class="i"><use href="#i-coffee"/></svg></span></div><div class="slot card"><h3>Hi-Tea</h3></div></div>
   </div>
   <div class="panel tl" id="d2" role="tabpanel" aria-labelledby="t2" hidden>
-   <div class="slot card"><time><svg class="i"><use href="#i-clock"/></svg>10:30 AM – 2:00 PM</time><div><h3>Session III: Opportunities &amp; Constraints in Agri Entrepreneurship</h3><div class="t"><span>StartUp</span><span>Urban Nursery</span><span>Hydroponic</span><span>Bio Gas Plant</span><span>Sugar Cane</span></div></div></div>
-   <div class="slot card brk"><time><svg class="i"><use href="#i-clock"/></svg>2:00 PM</time><h3><svg class="i"><use href="#i-utensils"/></svg>Lunch break</h3></div>
-   <div class="slot card"><time><svg class="i"><use href="#i-clock"/></svg>3:30 – 5:30 PM</time><div><h3>Session IV: Opportunities &amp; Constraints in Agri Entrepreneurship</h3><div class="t"><span>Pisciculture (Magura, Seula)</span><span>Animal Feeds</span><span>Dairy</span><span>Poultry</span></div></div></div>
-   <div class="slot card brk"><time><svg class="i"><use href="#i-clock"/></svg>5:30 PM</time><h3><svg class="i"><use href="#i-coffee"/></svg>Tea break</h3></div>
-   <div class="slot card hi"><time><svg class="i"><use href="#i-clock"/></svg>6:30 PM</time><div><h3>Valedictory Ceremony</h3><p>Closing of the two-day conclave.</p></div></div>
+   <header class="dayhead"><span class="di"><svg class="i"><use href="#i-cal"/></svg></span><div><b>Saturday, 12 December 2026</b><small>Conference Hall, UCCIL, Bhubaneswar</small></div><span class="dc">2 sessions + valedictory</span></header>
+   <div class="row " style="--i:0"><div class="tm"><b>10:30 AM</b><small>to 2:00 PM</small><em>3 h 30 min</em></div><div class="rail"><span class="node">III</span></div><div class="slot card"><h3>Session III: Opportunities &amp; Constraints in Agri Entrepreneurship</h3><div class="t"><span>StartUp</span><span>Urban Nursery</span><span>Hydroponic</span><span>Bio Gas Plant</span><span>Sugar Cane</span></div></div></div>
+   <div class="row brk" style="--i:1"><div class="tm"><b>2:00 PM</b></div><div class="rail"><span class="node"><svg class="i"><use href="#i-utensils"/></svg></span></div><div class="slot card"><h3>Lunch break</h3></div></div>
+   <div class="row " style="--i:2"><div class="tm"><b>3:30 PM</b><small>to 5:30 PM</small><em>2 h</em></div><div class="rail"><span class="node">IV</span></div><div class="slot card"><h3>Session IV: Opportunities &amp; Constraints in Agri Entrepreneurship</h3><div class="t"><span>Pisciculture (Magura, Seula)</span><span>Animal Feeds</span><span>Dairy</span><span>Poultry</span></div></div></div>
+   <div class="row brk" style="--i:3"><div class="tm"><b>5:30 PM</b></div><div class="rail"><span class="node"><svg class="i"><use href="#i-coffee"/></svg></span></div><div class="slot card"><h3>Tea break</h3></div></div>
+   <div class="row hi" style="--i:4"><div class="tm"><b>6:30 PM</b></div><div class="rail"><span class="node"><svg class="i"><use href="#i-flag"/></svg></span></div><div class="slot card"><h3>Valedictory Ceremony</h3><p>Closing of the two-day conclave.</p></div></div>
   </div>
  </div>
 </section>
@@ -640,7 +711,6 @@ footer a:hover{color:#fff}
    <div class="fbrand">
     <div class="fname"><img class="brand-logo" src="assets/farming-logo.jpg" data-fb="https://img.magnific.com/premium-vector/farmer-plowing-field-with-oxen-traditional-agriculture-illustration_1036467-1490.jpg?semt=ais_hybrid&amp;w=740&amp;q=80" onerror="fb(this)" alt="Farming in Odisha 2.0 logo" width="72" height="72"><div><strong>Farming in Odisha <em>2.0</em></strong><small>a birds’ eyeview</small></div></div>
     <p>Workshops and seminars for agriculture and agri-entrepreneurs: unite, collaborate, innovate and transform agriculture.</p>
-    <div class="fpairs"><div><div class="flabel">Organised by</div><div class="flogos"><span><img src="assets/maruti-media-logo.png" data-fb="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXQ0gI7t1miHhsIx_Jcse8Wc_d4XdOFTk28l2nxdfkpLo2RtZEID_JKBo&amp;s=10" onerror="fb(this)" alt="Maruti Media" height="40"></span></div></div><div><div class="flabel">In association with</div><div class="flogos"><span><img class="u" src="assets/uccil-logo.png" data-fb="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1Rj42PxJ5BIZW9cMZ3ZaI0g2SHQzc-moxuUUpID4r7b6EhEyosHA4mLn-&amp;s=10" onerror="fb(this)" alt="The Utkal Chamber of Commerce &amp; Industry Ltd." height="44"></span></div></div></div>
    </div>
    <div>
     <h4>Explore</h4>
@@ -656,6 +726,14 @@ footer a:hover{color:#fff}
     </ul>
    </div>
   </div>
+  <div class="fpart">
+   <h4>Our partners</h4>
+   <div class="fplist">
+    <div class="fp"><div class="flabel">Organised by</div><div class="tile"><img src="assets/maruti-media-logo.png" data-fb="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXQ0gI7t1miHhsIx_Jcse8Wc_d4XdOFTk28l2nxdfkpLo2RtZEID_JKBo&amp;s=10" onerror="fb(this)" alt="Maruti Media"></div></div>
+    <div class="fp"><div class="flabel">In association with</div><div class="tile"><img class="u" src="assets/uccil-logo.png" data-fb="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1Rj42PxJ5BIZW9cMZ3ZaI0g2SHQzc-moxuUUpID4r7b6EhEyosHA4mLn-&amp;s=10" onerror="fb(this)" alt="The Utkal Chamber of Commerce &amp; Industry Ltd."></div></div>
+    <div class="fp"><div class="flabel">Event partner</div><div class="tile"><img src="assets/green-mandideals-logo.png" alt="Green Mandideals logo"><div class="wm"><b>Green</b>Mandideals<small>Event Partner</small></div></div></div>
+   </div>
+  </div>
   <div class="fbot"><span>© <span id="yr">2026</span> Farming in Odisha 2.0 · Maruti Media &amp; UCCIL. All rights reserved.</span><span>Venue: The Utkal Chamber of Commerce &amp; Industry Ltd., Bhubaneswar</span></div>
  </div>
 </footer>
@@ -666,11 +744,19 @@ footer a:hover{color:#fff}
 <script>
 (function(){
  var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
- // loader: show for at least 1.5s, hide when page has loaded (failsafe at 6s)
- var ld=$('#loader'),t0=Date.now(),hidden=false;
- function hideLoader(){if(hidden)return;hidden=true;var w=Math.max(0,1500-(Date.now()-t0));setTimeout(function(){ld.classList.add('done');document.body.classList.remove('loading');setTimeout(function(){ld.parentNode&&ld.parentNode.removeChild(ld)},800)},w)}
- if(document.readyState==='complete')hideLoader();else window.addEventListener('load',hideLoader);
- setTimeout(hideLoader,6000);
+ // loader
+ var ld=$('#loader'),ring=$('#ldring'),pct=$('#ldpct'),lbar=$('#ldbar'),t0=Date.now(),loaded=false,closed=false,p=0;
+ function paint(){ring.style.strokeDashoffset=364.4*(1-p/100);pct.textContent=Math.round(p)+'%';lbar.style.width=p+'%'}
+ function closeLoader(){if(closed)return;closed=true;ld.classList.add('done');document.body.classList.remove('loading');setTimeout(function(){ld.parentNode&&ld.parentNode.removeChild(ld)},800)}
+ function frame(){p+=((loaded?100:90)-p)*(loaded?.16:.035);if(p>99.4)p=100;paint();if(p<100)requestAnimationFrame(frame);else setTimeout(closeLoader,380)}
+ function ready(){setTimeout(function(){loaded=true},Math.max(0,1500-(Date.now()-t0)))}
+ requestAnimationFrame(frame);
+ if(document.readyState==='complete')ready();else window.addEventListener('load',ready);
+ setTimeout(function(){loaded=true},6000);setTimeout(closeLoader,9000);
+ // favicon: use the logo image that actually loaded
+ var bl=$('.brand-logo');
+ function fav(){var u=bl.currentSrc||bl.src;if(!u)return;$$('link[rel~=icon],link[rel=apple-touch-icon]').forEach(function(l){l.removeAttribute('type');l.href=u})}
+ if(bl.complete&&bl.naturalWidth)fav();bl.addEventListener('load',fav);
  // mobile menu
  var t=$('.menu-toggle'),n=$('#nav-links');
  t.addEventListener('click',function(){var o=n.classList.toggle('open');t.setAttribute('aria-expanded',o)});
