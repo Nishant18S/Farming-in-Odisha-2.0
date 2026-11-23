@@ -401,6 +401,23 @@ body.modal-open{overflow:hidden}
 .btn.btn-reg.closed,.btn.btn-reg.closed:hover,.nav-links .btn.btn-reg.closed:hover{background:#9aa8a0;color:#fff;box-shadow:none;animation:none;transform:none;cursor:not-allowed}
 .btn.btn-reg.closed:after{display:none}
 .reg-fab.closed{display:none!important}
+/* footer register banner */
+.freg{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:8px 0 42px;padding:28px 32px;border-radius:24px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04))}
+.freg:before{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;background:var(--or);opacity:.14;pointer-events:none}
+.freg-txt{position:relative;z-index:1;max-width:560px}
+.freg-txt .flabel{color:#ffb35c}
+.freg-txt strong{display:block;font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.3rem,3vw,1.75rem);line-height:1.2;color:#fff;margin:6px 0 8px}
+.freg-txt p{color:#cfe6d3;font-size:.92rem}
+.freg-note{display:inline-flex;align-items:center;gap:10px;margin-top:12px;font-size:.84rem;font-weight:600;color:#fff}
+.freg-act{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.freg-act small{color:#9fc3a7;font-size:.78rem}
+@media(max-width:700px){
+ .freg{padding:24px 20px;flex-direction:column;align-items:stretch;text-align:center}
+ .freg-note{justify-content:center}
+ .freg-act{align-items:stretch}
+ .freg-act .btn{width:100%}
+ .freg-act small{text-align:center}
+}
 /* reveal */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .reveal.in{opacity:1;transform:none}
@@ -805,6 +822,21 @@ body.modal-open{overflow:hidden}
     <div class="fp"><span class="flabel">Event Tech Partner</span><div class="fl"><img src="assets/green-mandideals-logo.png" alt="Green Mandideals logo"><div class="wm"><b>Green</b>Mandideals</div></div></div>
    </div>
   </div>
+
+  <!-- footer register banner -->
+  <div class="freg">
+   <div class="freg-txt">
+    <span class="flabel">Limited seats · Free to attend</span>
+    <strong>Reserve your place at Farming in Odisha 2.0</strong>
+    <p>Join farmers, agri-entrepreneurs and experts at UCCIL, Bhubaneswar on 11 &amp; 12 December 2026. Up to 2 visitors per registration.</p>
+    <span class="freg-note"><span class="dot"></span><span id="regFootNote">Registration open</span></span>
+   </div>
+   <div class="freg-act">
+    <button type="button" class="btn btn-reg btn-lg" data-reg>Register now <svg class="i arr"><use href="#i-arrow"/></svg></button>
+    <small>Takes less than a minute</small>
+   </div>
+  </div>
+
   <div class="fgrid">
    <div class="fbrand">
     <div class="fname"><img class="brand-logo" src="assets/farming-logo.jpg" data-fb="https://img.magnific.com/premium-vector/farmer-plowing-field-with-oxen-traditional-agriculture-illustration_1036467-1490.jpg?semt=ais_hybrid&amp;w=740&amp;q=80" onerror="fb(this)" alt="Farming in Odisha 2.0 logo" width="72" height="72"><div><strong>Farming in Odisha <em>2.0</em></strong><small>a birds’ eyeview</small></div></div>
@@ -813,7 +845,7 @@ body.modal-open{overflow:hidden}
    </div>
    <div>
     <h4>Explore</h4>
-    <ul class="flinks"><li><a href="#video"><svg class="i"><use href="#i-chev"/></svg>Event video</a></li><li><a href="#news"><svg class="i"><use href="#i-chev"/></svg>Press meet news</a></li><li><a href="#objectives"><svg class="i"><use href="#i-chev"/></svg>Objectives</a></li><li><a href="#topics"><svg class="i"><use href="#i-chev"/></svg>Sectors &amp; topics</a></li><li><a href="#schedule"><svg class="i"><use href="#i-chev"/></svg>Sessions plan</a></li><li><a href="#past"><svg class="i"><use href="#i-chev"/></svg>Past edition</a></li><li><a href="#brochure"><svg class="i"><use href="#i-chev"/></svg>Brochure</a></li><li><a href="#venue"><svg class="i"><use href="#i-chev"/></svg>Venue</a></li></ul>
+    <ul class="flinks"><li><a href="#video"><svg class="i"><use href="#i-chev"/></svg>Event video</a></li><li><a href="#news"><svg class="i"><use href="#i-chev"/></svg>Press meet news</a></li><li><a href="#objectives"><svg class="i"><use href="#i-chev"/></svg>Objectives</a></li><li><a href="#topics"><svg class="i"><use href="#i-chev"/></svg>Sectors &amp; topics</a></li><li><a href="#schedule"><svg class="i"><use href="#i-chev"/></svg>Sessions plan</a></li><li><a href="#past"><svg class="i"><use href="#i-chev"/></svg>Past edition</a></li><li><a href="#brochure"><svg class="i"><use href="#i-chev"/></svg>Brochure</a></li><li><a href="#venue"><svg class="i"><use href="#i-chev"/></svg>Venue</a></li><li><a href="#" data-reg><svg class="i"><use href="#i-chev"/></svg>Register now</a></li></ul>
    </div>
    <div>
     <h4>Contact organisers</h4>
@@ -963,7 +995,8 @@ body.modal-open{overflow:hidden}
  function closeRegistration(){
   if(regIsClosed)return;regIsClosed=true;clearInterval(regIv);
   $$('[data-reg]').forEach(function(b){b.disabled=true;b.classList.add('closed');b.innerHTML='<svg class="i"><use href="#i-x"/></svg> Registration closed'});
-  var note=$('#regNote'),left=$('#regLeft'),rt=$('#regCloseTitle'),rs=$('#regCloseSub');
+  var note=$('#regNote'),left=$('#regLeft'),rt=$('#regCloseTitle'),rs=$('#regCloseSub'),fnote=$('#regFootNote');
+  if(fnote){fnote.textContent='Registration closed';if(fnote.previousElementSibling)fnote.previousElementSibling.className='dot off'}
   if(note){note.textContent='Registration closed';if(note.previousElementSibling)note.previousElementSibling.className='dot off'}
   if(left)left.textContent='Registration closed';
   if(rt)rt.textContent='Registration closed';
@@ -977,7 +1010,8 @@ body.modal-open{overflow:hidden}
   if(d<=0){closeRegistration();return}
   var v={d:Math.floor(d/864e5),h:Math.floor(d%864e5/36e5),m:Math.floor(d%36e5/6e4),s:Math.floor(d%6e4/1e3)};
   if(cd2)for(var k in v){var el=$('[data-u='+k+']',cd2);if(el)el.textContent=pad2(v[k])}
-  var txt=v.d+'d '+pad2(v.h)+'h '+pad2(v.m)+'m '+pad2(v.s)+'s',note=$('#regNote'),left=$('#regLeft');
+  var txt=v.d+'d '+pad2(v.h)+'h '+pad2(v.m)+'m '+pad2(v.s)+'s',note=$('#regNote'),left=$('#regLeft'),fnote=$('#regFootNote');
+  if(fnote)fnote.textContent='Registration open · closes in '+txt;
   if(note)note.textContent='Registration open · closes in '+txt;
   if(left)left.textContent='Closes in '+txt;
  }
