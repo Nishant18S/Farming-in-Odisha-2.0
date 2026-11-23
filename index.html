@@ -14,6 +14,7 @@
 <link rel="shortcut icon" href="assets/farming-logo.jpg" />
 <link rel="apple-touch-icon" href="assets/farming-logo.jpg" />
 <noscript><style>#loader{display:none!important}body.loading{overflow:auto!important}</style></noscript>
+<script>try{if(sessionStorage.getItem('fio_loaded')==='1')document.documentElement.className+=' skip-loader'}catch(e){}</script>
 <script>function fb(i){i.onerror=null;if(i.dataset.fb){i.referrerPolicy="no-referrer";i.src=i.dataset.fb}}</script>
 <style>
 :root{--bg:#f7fbf4;--bg2:#ecf5e6;--line:#dbe8d5;--text:#15301f;--muted:#52665a;--g1:#15803d;--g2:#65a30d;--gd:#0f3d22;--ind:#3b2a8f;--or:#ea7a00;--r:20px;--sh:0 12px 34px rgba(15,61,34,.10)}
@@ -21,6 +22,8 @@
 html{scroll-behavior:smooth;scroll-padding-top:100px}
 body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body.loading{overflow:hidden}
+.skip-loader #loader{display:none!important}
+.skip-loader body.loading{overflow:auto}
 img{max-width:100%;display:block}
 a{color:inherit}
 .container{width:min(1160px,100% - 32px);margin-inline:auto}
@@ -853,12 +856,16 @@ body.modal-open{overflow:hidden}
  // loader
  var ld=$('#loader'),ring=$('#ldring'),pct=$('#ldpct'),lbar=$('#ldbar'),t0=Date.now(),loaded=false,closed=false,p=0;
  function paint(){ring.style.strokeDashoffset=364.4*(1-p/100);pct.textContent=Math.round(p)+'%';lbar.style.width=p+'%'}
- function closeLoader(){if(closed)return;closed=true;ld.classList.add('done');document.body.classList.remove('loading');setTimeout(function(){ld.parentNode&&ld.parentNode.removeChild(ld)},800)}
+ function closeLoader(){if(closed)return;closed=true;try{sessionStorage.setItem('fio_loaded','1')}catch(e){}ld.classList.add('done');document.body.classList.remove('loading');setTimeout(function(){ld.parentNode&&ld.parentNode.removeChild(ld)},800)}
  function frame(){p+=((loaded?100:90)-p)*(loaded?.16:.035);if(p>99.4)p=100;paint();if(p<100)requestAnimationFrame(frame);else setTimeout(closeLoader,380)}
  function ready(){setTimeout(function(){loaded=true},Math.max(0,1500-(Date.now()-t0)))}
- requestAnimationFrame(frame);
- if(document.readyState==='complete')ready();else window.addEventListener('load',ready);
- setTimeout(function(){loaded=true},6000);setTimeout(closeLoader,9000);
+ var seen=false;try{seen=sessionStorage.getItem('fio_loaded')==='1'}catch(e){}
+ if(seen){closed=true;document.body.classList.remove('loading');if(ld.parentNode)ld.parentNode.removeChild(ld)}
+ else{
+  requestAnimationFrame(frame);
+  if(document.readyState==='complete')ready();else window.addEventListener('load',ready);
+  setTimeout(function(){loaded=true},6000);setTimeout(closeLoader,9000);
+ }
  // favicon: use the logo image that actually loaded
  var bl=$('.brand-logo');
  function fav(){var u=bl.currentSrc||bl.src;if(!u)return;$$('link[rel~=icon],link[rel=apple-touch-icon]').forEach(function(l){l.removeAttribute('type');l.href=u})}
