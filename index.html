@@ -391,6 +391,16 @@ body.modal-open{overflow:hidden}
  .reg-note{justify-content:center;padding-left:0}
  .btn-lg{padding:16px 24px}
 }
+/* registration deadline */
+.count-wrap{row-gap:22px}
+.reg-count .cd{background:#fff4e5}
+.reg-count .cd b{color:var(--or)}
+.reg-closed-badge{grid-column:1/-1;display:flex;align-items:center;justify-content:center;padding:18px 12px;border-radius:14px;background:#fdecea;color:#b91c1c;font-weight:700;letter-spacing:.02em}
+.reg-shut .tick{background:#fdecea;color:#b91c1c}
+.dot.off{background:#9aa8a0;animation:none}
+.btn.btn-reg.closed,.btn.btn-reg.closed:hover,.nav-links .btn.btn-reg.closed:hover{background:#9aa8a0;color:#fff;box-shadow:none;animation:none;transform:none;cursor:not-allowed}
+.btn.btn-reg.closed:after{display:none}
+.reg-fab.closed{display:none!important}
 /* reveal */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .reveal.in{opacity:1;transform:none}
@@ -553,7 +563,7 @@ body.modal-open{overflow:hidden}
    <div class="cta reveal" style="--d:.42s">
     <div class="cta-main">
      <button type="button" class="btn btn-reg btn-lg" data-reg>Register now <svg class="i arr"><use href="#i-arrow"/></svg></button>
-     <span class="reg-note"><span class="dot"></span>Registration open · takes under a minute</span>
+     <span class="reg-note"><span class="dot"></span><span id="regNote">Registration open</span></span>
     </div>
     <div class="cta-sub">
      <a class="btn btn-ghost" href="#schedule">View schedule <svg class="i"><use href="#i-arrow"/></svg></a>
@@ -573,6 +583,13 @@ body.modal-open{overflow:hidden}
  <div class="count-wrap card reveal">
   <div><h2>Event starts in</h2><p>Inaugural ceremony · 11 Dec 2026, 10:00 AM</p></div>
   <div class="count" style="margin:0" id="cd" aria-live="off">
+   <div class="cd"><b data-u="d">0</b><span>Days</span></div>
+   <div class="cd"><b data-u="h">0</b><span>Hours</span></div>
+   <div class="cd"><b data-u="m">0</b><span>Mins</span></div>
+   <div class="cd"><b data-u="s">0</b><span>Secs</span></div>
+  </div>
+  <div><h2 id="regCloseTitle">Registration closes in</h2><p id="regCloseSub">Closes 9 Dec 2026, 10:00 AM · 48 hours before the event</p></div>
+  <div class="count reg-count" style="margin:0" id="cd2" aria-live="off">
    <div class="cd"><b data-u="d">0</b><span>Days</span></div>
    <div class="cd"><b data-u="h">0</b><span>Hours</span></div>
    <div class="cd"><b data-u="m">0</b><span>Mins</span></div>
@@ -824,7 +841,7 @@ body.modal-open{overflow:hidden}
   <button type="button" class="reg-x" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>
   <div class="reg-head">
    <h3 id="regTitle">Register for Farming in Odisha 2.0</h3>
-   <p><span><svg class="i"><use href="#i-cal"/></svg>11 &amp; 12 Dec 2026</span><span><svg class="i"><use href="#i-pin"/></svg>UCCIL, Bhubaneswar</span></p>
+   <p><span><svg class="i"><use href="#i-cal"/></svg>11 &amp; 12 Dec 2026</span><span><svg class="i"><use href="#i-pin"/></svg>UCCIL, Bhubaneswar</span><span><svg class="i"><use href="#i-clock"/></svg><span id="regLeft">Registration open</span></span></p>
   </div>
   <form id="regForm" novalidate>
    <div class="fld full"><label for="rEmail">Email ID<span class="req">*</span></label><div class="wrap"><svg class="i"><use href="#i-mail"/></svg><input id="rEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required></div></div>
@@ -842,6 +859,12 @@ body.modal-open{overflow:hidden}
    <h3>Registration received!</h3>
    <p>Thank you. The organisers will contact you with further details. See you on 11 &amp; 12 December 2026.</p>
    <button type="button" class="btn btn-primary" data-close>Done</button>
+  </div>
+  <div class="reg-ok reg-shut" id="regClosed" hidden>
+   <div class="tick"><svg class="i"><use href="#i-clock"/></svg></div>
+   <h3>Registration is closed</h3>
+   <p>Registration closed 48 hours before the event. For any query, please call +91 94370 03344.</p>
+   <button type="button" class="btn btn-ghost" data-close>Close</button>
   </div>
  </div>
 </div>
@@ -910,7 +933,7 @@ body.modal-open{overflow:hidden}
  // registration -> Google Sheet
  var REG_URL=(window.APP_CONFIG&&window.APP_CONFIG.REG_URL)||'';
  var reg=$('#reg'),rf=$('#regForm'),rok=$('#regOk'),rmsg=$('#regMsg'),rbtn=$('#regSubmit'),rlast;
- function openReg(){rlast=document.activeElement;reg.classList.add('open');document.body.classList.add('modal-open');rf.hidden=false;rok.hidden=true;rmsg.textContent='';setTimeout(function(){$('#rEmail').focus()},60)}
+ function openReg(){if(isClosed()){closeRegistration();return}rlast=document.activeElement;reg.classList.add('open');document.body.classList.add('modal-open');rf.hidden=false;rok.hidden=true;if(rcl)rcl.hidden=true;rmsg.textContent='';setTimeout(function(){$('#rEmail').focus()},60)}
  function closeReg(){reg.classList.remove('open');document.body.classList.remove('modal-open');if(rlast&&rlast.focus)rlast.focus()}
  $$('[data-reg]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();n.classList.remove('open');t.setAttribute('aria-expanded','false');openReg()})});
  $$('[data-close]',reg).forEach(function(b){b.addEventListener('click',closeReg)});
@@ -919,6 +942,7 @@ body.modal-open{overflow:hidden}
  function regErr(s){rmsg.textContent=s}
  rf.addEventListener('submit',function(e){
   e.preventDefault();rmsg.textContent='';
+  if(isClosed()){closeRegistration();return}
   if(rf.website.value)return; // spam trap
   if(!rf.checkValidity()){rf.reportValidity();return}
   var mob=rf.mobile.value.replace(/\D/g,'');
@@ -932,6 +956,32 @@ body.modal-open{overflow:hidden}
    .catch(function(){regErr('Network problem. Please check your connection and try again.')})
    .then(function(){rbtn.disabled=false;rbtn.classList.remove('busy')});
  });
+  // registration deadline: closes automatically 48 hours before the event starts
+ var REG_CLOSE=target-48*36e5,regIsClosed=false,regIv,cd2=$('#cd2'),rcl=$('#regClosed');
+ function isClosed(){return Date.now()>=REG_CLOSE}
+ function pad2(x){return String(x).padStart(2,'0')}
+ function closeRegistration(){
+  if(regIsClosed)return;regIsClosed=true;clearInterval(regIv);
+  $$('[data-reg]').forEach(function(b){b.disabled=true;b.classList.add('closed');b.innerHTML='<svg class="i"><use href="#i-x"/></svg> Registration closed'});
+  var note=$('#regNote'),left=$('#regLeft'),rt=$('#regCloseTitle'),rs=$('#regCloseSub');
+  if(note){note.textContent='Registration closed';if(note.previousElementSibling)note.previousElementSibling.className='dot off'}
+  if(left)left.textContent='Registration closed';
+  if(rt)rt.textContent='Registration closed';
+  if(rs)rs.textContent='Closed on 9 Dec 2026, 10:00 AM. For queries call +91 94370 03344.';
+  if(cd2)cd2.innerHTML='<div class="reg-closed-badge">Registration closed</div>';
+  if(reg.classList.contains('open')){rf.hidden=true;rok.hidden=true;if(rcl)rcl.hidden=false}
+ }
+ function regTick(){
+  if(regIsClosed)return;
+  var d=REG_CLOSE-Date.now();
+  if(d<=0){closeRegistration();return}
+  var v={d:Math.floor(d/864e5),h:Math.floor(d%864e5/36e5),m:Math.floor(d%36e5/6e4),s:Math.floor(d%6e4/1e3)};
+  if(cd2)for(var k in v){var el=$('[data-u='+k+']',cd2);if(el)el.textContent=pad2(v[k])}
+  var txt=v.d+'d '+pad2(v.h)+'h '+pad2(v.m)+'m '+pad2(v.s)+'s',note=$('#regNote'),left=$('#regLeft');
+  if(note)note.textContent='Registration open · closes in '+txt;
+  if(left)left.textContent='Closes in '+txt;
+ }
+ regTick();regIv=setInterval(regTick,1000);
  $('#yr').textContent=new Date().getFullYear();
 })();
 </script>
