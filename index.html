@@ -316,6 +316,57 @@ footer a:hover{color:#fff}
 .fcontact i{font-style:normal;flex:none;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;color:#ffb35c}
 .fcontact b{color:#fff}
 .fbot{border-top:1px solid rgba(255,255,255,.16);margin-top:38px;padding-top:18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:.8rem;color:#9fc3a7}
+/* registration */
+button.btn{font-family:inherit}
+body.modal-open{overflow:hidden}
+.reg{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,30,18,.72);backdrop-filter:blur(4px)}
+.reg.open{display:flex}
+.reg-box{position:relative;width:min(560px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:#fff;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:regin .35s cubic-bezier(.2,.7,.2,1)}
+@keyframes regin{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.reg-head{padding:26px 28px 22px;background:linear-gradient(135deg,var(--gd),var(--g1));color:#fff;border-radius:24px 24px 0 0}
+.reg-head h3{font-family:"Playfair Display",Georgia,serif;font-size:1.5rem;line-height:1.2;padding-right:44px}
+.reg-head p{font-size:.85rem;color:#cfe6d3;margin-top:6px;display:flex;flex-wrap:wrap;gap:4px 14px}
+.reg-head p span{display:inline-flex;align-items:center;gap:6px}
+.reg-x{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:0;cursor:pointer;background:rgba(255,255,255,.18);color:#fff;display:grid;place-items:center;transition:.2s}
+.reg-x:hover{background:#fff;color:var(--gd)}
+#regForm{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#regForm[hidden]{display:none}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:.82rem;font-weight:600;color:var(--gd)}
+.fld label .req{color:#dc2626;margin-left:2px}
+.fld label em{font-style:normal;font-weight:500;color:var(--muted);font-size:.74rem;margin-left:4px}
+.fld .wrap{position:relative}
+.fld .wrap .i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);width:18px;height:18px;pointer-events:none}
+.fld input{width:100%;padding:13px 14px 13px 42px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);font:inherit;font-size:16px;color:var(--text);transition:.2s}
+.fld input:focus{outline:0;border-color:var(--g1);background:#fff;box-shadow:0 0 0 4px rgba(21,128,61,.14)}
+.fld input:user-invalid{border-color:#dc2626}
+.hint{grid-column:1/-1;font-size:.78rem;color:var(--muted);margin-top:-6px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+#regMsg{grid-column:1/-1;font-size:.85rem;color:#b91c1c}
+#regMsg:empty{display:none}
+#regSubmit{grid-column:1/-1;width:100%;padding:15px 24px;font-size:1rem}
+#regSubmit:disabled{opacity:.75;cursor:wait;transform:none;box-shadow:none}
+#regSubmit.busy:before{content:"";width:16px;height:16px;border:2.5px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reg-ok{padding:40px 28px 34px;text-align:center}
+.reg-ok[hidden]{display:none}
+.reg-ok .tick{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:var(--bg2);color:var(--g1);display:grid;place-items:center;animation:pop .6s cubic-bezier(.3,1.6,.5,1)}
+.reg-ok .tick .i{width:34px;height:34px;stroke-width:2.6}
+.reg-ok h3{font-family:"Playfair Display",Georgia,serif;font-size:1.5rem;color:var(--gd);margin-bottom:8px}
+.reg-ok p{color:var(--muted);font-size:.95rem;margin-bottom:22px}
+.reg-fab{display:none}
+@media(max-width:960px){
+ .reg-fab{display:inline-flex;position:fixed;left:16px;bottom:18px;z-index:70;box-shadow:0 14px 30px rgba(21,128,61,.4)}
+ body.modal-open .reg-fab{display:none}
+}
+@media(max-width:600px){
+ .reg{align-items:flex-end;padding:0}
+ .reg-box{width:100%;max-height:94dvh;border-radius:24px 24px 0 0}
+ .reg-head{padding:22px 20px 18px;border-radius:24px 24px 0 0}
+ .reg-head h3{font-size:1.3rem}
+ #regForm{grid-template-columns:1fr;padding:20px 20px 26px;gap:14px}
+}
 /* reveal */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .reveal.in{opacity:1;transform:none}
@@ -460,7 +511,8 @@ footer a:hover{color:#fff}
    <a href="#schedule">Schedule</a>
    <a href="#past">Past Edition</a>
    <a href="#venue">Venue</a>
-   <a href="#contact-event" class="btn btn-primary">Contact organisers</a>
+   <a href="#contact-event">Contact</a>
+   <button type="button" class="btn btn-primary" data-reg><svg class="i"><use href="#i-check"/></svg> Register now</button>
   </nav>
  </div>
 </div>
@@ -475,7 +527,8 @@ footer a:hover{color:#fff}
    <p class="lead reveal" style="--d:.26s">Two days of workshops and seminars for agriculture and agri-entrepreneurs: unite, collaborate, innovate and transform agriculture in Odisha.</p>
    <div class="logos reveal" style="--d:.34s"><span>Organised by</span><div class="chip"><img src="assets/maruti-media-logo.png" data-fb="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXQ0gI7t1miHhsIx_Jcse8Wc_d4XdOFTk28l2nxdfkpLo2RtZEID_JKBo&amp;s=10" onerror="fb(this)" alt="Maruti Media, 25 years of excellence"><i></i><span>In association with</span><img class="u" src="assets/uccil-logo.png" data-fb="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1Rj42PxJ5BIZW9cMZ3ZaI0g2SHQzc-moxuUUpID4r7b6EhEyosHA4mLn-&amp;s=10" onerror="fb(this)" alt="The Utkal Chamber of Commerce &amp; Industry Ltd. (UCCIL)"></div></div>
    <div class="cta reveal" style="--d:.42s">
-    <a class="btn btn-primary" href="#schedule">View schedule <svg class="i"><use href="#i-arrow"/></svg></a>
+    <button type="button" class="btn btn-primary" data-reg>Register now <svg class="i"><use href="#i-arrow"/></svg></button>
+    <a class="btn btn-ghost" href="#schedule">View schedule <svg class="i"><use href="#i-arrow"/></svg></a>
     <a class="btn btn-ghost" href="assets/farming-in-odisha-2-0-brochure.pdf" target="_blank" rel="noopener"><svg class="i"><use href="#i-dl"/></svg> Download brochure</a>
    </div>
   </div>
@@ -687,7 +740,8 @@ footer a:hover{color:#fff}
     <a href="tel:+919437003344">+91 94370 03344</a> · <a href="mailto:marutimedia13@gmail.com">marutimedia13@gmail.com</a> · <a href="https://www.theodisha.directory" target="_blank" rel="noopener">www.theodisha.directory</a></p>
    </div>
    <div class="cta" style="margin:0">
-    <a class="btn btn-primary" href="tel:+919437003344"><svg class="i"><use href="#i-phone"/></svg> Call organisers</a>
+    <button type="button" class="btn btn-primary" data-reg><svg class="i"><use href="#i-check"/></svg> Register now</button>
+    <a class="btn btn-ghost" href="tel:+919437003344"><svg class="i"><use href="#i-phone"/></svg> Call organisers</a>
     <a class="btn btn-ghost" href="mailto:marutimedia13@gmail.com?subject=Farming%20in%20Odisha%202.0"><svg class="i"><use href="#i-mail"/></svg> Email us</a>
     <a class="btn btn-ghost" href="#venue"><svg class="i"><use href="#i-pin"/></svg> Venue map</a>
    </div>
@@ -729,9 +783,44 @@ footer a:hover{color:#fff}
  </div>
 </footer>
 
+<button type="button" class="btn btn-primary reg-fab" data-reg><svg class="i"><use href="#i-check"/></svg> Register now</button>
+
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+ <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+ <symbol id="i-building" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18zM6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4"/></symbol>
+</svg>
+
+<div class="reg" id="reg" role="dialog" aria-modal="true" aria-labelledby="regTitle">
+ <div class="reg-box">
+  <button type="button" class="reg-x" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>
+  <div class="reg-head">
+   <h3 id="regTitle">Register for Farming in Odisha 2.0</h3>
+   <p><span><svg class="i"><use href="#i-cal"/></svg>11 &amp; 12 Dec 2026</span><span><svg class="i"><use href="#i-pin"/></svg>UCCIL, Bhubaneswar</span></p>
+  </div>
+  <form id="regForm" novalidate>
+   <div class="fld full"><label for="rEmail">Email ID<span class="req">*</span></label><div class="wrap"><svg class="i"><use href="#i-mail"/></svg><input id="rEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required></div></div>
+   <div class="fld full"><label for="rOrg">Organisation name<span class="req">*</span></label><div class="wrap"><svg class="i"><use href="#i-building"/></svg><input id="rOrg" name="org" type="text" autocomplete="organization" placeholder="Your organisation" required></div></div>
+   <div class="fld"><label for="rV1">Visitor 1 name<span class="req">*</span></label><div class="wrap"><svg class="i"><use href="#i-user"/></svg><input id="rV1" name="visitor1" type="text" autocomplete="name" placeholder="Full name" required></div></div>
+   <div class="fld"><label for="rV2">Visitor 2 name<em>optional</em></label><div class="wrap"><svg class="i"><use href="#i-user"/></svg><input id="rV2" name="visitor2" type="text" placeholder="Full name"></div></div>
+   <div class="hint">Maximum 2 visitors per registration.</div>
+   <div class="fld full"><label for="rMob">Mobile number<em>optional</em></label><div class="wrap"><svg class="i"><use href="#i-phone"/></svg><input id="rMob" name="mobile" type="tel" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="10-digit mobile number"></div></div>
+   <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+   <div id="regMsg" role="alert"></div>
+   <button type="submit" class="btn btn-primary" id="regSubmit">Submit registration</button>
+  </form>
+  <div class="reg-ok" id="regOk" hidden>
+   <div class="tick"><svg class="i"><use href="#i-check"/></svg></div>
+   <h3>Registration received!</h3>
+   <p>Thank you. The organisers will contact you with further details. See you on 11 &amp; 12 December 2026.</p>
+   <button type="button" class="btn btn-primary" data-close>Done</button>
+  </div>
+ </div>
+</div>
+
 <button class="totop" id="top" aria-label="Back to top"><svg class="i"><use href="#i-up"/></svg></button>
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer"><button type="button" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button><img alt=""></div>
 
+<script src="config.js"></script>
 <script>
 (function(){
  var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
@@ -785,6 +874,31 @@ footer a:hover{color:#fff}
  var links=$$('.nav-links a:not(.btn)'),secs=links.map(function(a){return $(a.getAttribute('href'))});
  function spy(){var y=window.scrollY+130,cur=-1;secs.forEach(function(el,i){if(el&&el.offsetTop<=y)cur=i});links.forEach(function(a,i){a.classList.toggle('active',i===cur)})}
  window.addEventListener('scroll',spy,{passive:true});spy();
+ // registration -> Google Sheet
+ var REG_URL=(window.APP_CONFIG&&window.APP_CONFIG.REG_URL)||'';
+ var reg=$('#reg'),rf=$('#regForm'),rok=$('#regOk'),rmsg=$('#regMsg'),rbtn=$('#regSubmit'),rlast;
+ function openReg(){rlast=document.activeElement;reg.classList.add('open');document.body.classList.add('modal-open');rf.hidden=false;rok.hidden=true;rmsg.textContent='';setTimeout(function(){$('#rEmail').focus()},60)}
+ function closeReg(){reg.classList.remove('open');document.body.classList.remove('modal-open');if(rlast&&rlast.focus)rlast.focus()}
+ $$('[data-reg]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();n.classList.remove('open');t.setAttribute('aria-expanded','false');openReg()})});
+ $$('[data-close]',reg).forEach(function(b){b.addEventListener('click',closeReg)});
+ reg.addEventListener('mousedown',function(e){if(e.target===reg)closeReg()});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&reg.classList.contains('open'))closeReg()});
+ function regErr(s){rmsg.textContent=s}
+ rf.addEventListener('submit',function(e){
+  e.preventDefault();rmsg.textContent='';
+  if(rf.website.value)return; // spam trap
+  if(!rf.checkValidity()){rf.reportValidity();return}
+  var mob=rf.mobile.value.replace(/\D/g,'');
+  if(mob.length===12&&mob.slice(0,2)==='91')mob=mob.slice(2);
+  if(mob&&mob.length!==10){regErr('Enter a valid 10-digit mobile number, or leave it blank.');return}
+  if(!REG_URL||REG_URL.indexOf('PASTE')===0){regErr('Online registration is not connected yet. Please call +91 94370 03344.');return}
+  var body=new URLSearchParams({email:rf.email.value.trim(),org:rf.org.value.trim(),visitor1:rf.visitor1.value.trim(),visitor2:rf.visitor2.value.trim(),mobile:mob});
+  rbtn.disabled=true;rbtn.classList.add('busy');
+  fetch(REG_URL,{method:'POST',body:body,mode:'no-cors'})
+   .then(function(){rf.reset();rf.hidden=true;rok.hidden=false})
+   .catch(function(){regErr('Network problem. Please check your connection and try again.')})
+   .then(function(){rbtn.disabled=false;rbtn.classList.remove('busy')});
+ });
  $('#yr').textContent=new Date().getFullYear();
 })();
 </script>
