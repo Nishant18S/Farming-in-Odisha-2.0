@@ -217,7 +217,7 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
    if(d.ok){try{sessionStorage.setItem(PIN_KEY,pin)}catch(e){}$('#gate').hidden=true;loadStats();setTimeout(function(){$('#code').focus()},50);return}
    pin='';try{sessionStorage.removeItem(PIN_KEY)}catch(e){}
    $('#gate').hidden=false;
-   if(!silent)$('#gateErr').textContent=d.error==='not_configured'?'The desk PIN is not set up in the Apps Script yet (Script properties → DESK_PIN).':'Wrong PIN. Try again.';
+   if(!silent)$('#gateErr').textContent=d.error==='server_error'?(d.message||'Server error'):d.error==='not_configured'?'The desk PIN is not set up in the Apps Script yet (Script properties → DESK_PIN).':'Wrong PIN. Try again.';
   }).catch(function(e){$('#gate').hidden=false;$('#gateErr').textContent='Cannot reach the server. '+e.message})
   .then(function(){$('#gateBtn').disabled=false});
  }
@@ -296,7 +296,7 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
    .then(function(d){
     if(d.ok){render(d.status,d,code);if(d.status==='checked_in')loadStats();return}
     if(d.error==='bad_pin'){$('#lockBtn').click();$('#gateErr').textContent='The desk PIN changed. Enter the new PIN.';return}
-    render(STATES[d.error]?d.error:'error',d,code,d.error);
+    render(STATES[d.error]?d.error:'error',d,code,d.message||d.error);
    })
    .catch(function(e){render('error',null,code,'Network problem: '+e.message+'. Try again.')})
    .then(function(){busy=false;$('#result').style.opacity=''});
