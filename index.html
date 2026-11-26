@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Farming in Odisha 2.0 | 11 &amp; 12 December 2026 | Bhubaneswar, Odisha</title>
 <meta name="description" content="Farming in Odisha 2.0: two-day workshops and seminars for agriculture and agri-entrepreneurs on 11 &amp; 12 December 2026 at UCCIL, Bhubaneswar. Schedule, objectives, video and brochure." />
 <meta name="theme-color" content="#15803d" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&family=Noto+Sans+Oriya:wght@600;700&display=swap" rel="stylesheet" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Farming in Odisha 2.0 – 11 & 12 December 2026, Bhubaneswar" />
 <meta property="og:description" content="Two-day workshop on agriculture and agri-entrepreneurship by UCCIL and Maruti Media." />
@@ -536,6 +536,118 @@ body.modal-open{overflow:hidden}
  .fgrid{grid-template-columns:1fr}
  .fpart{transform:translateY(-36px)}
 }
+
+/* ================= polish + mobile ================= */
+html,body{overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+body{text-rendering:optimizeLegibility}
+h1,h2,.brand strong,.ld-title{letter-spacing:-.015em}
+.btn{-webkit-tap-highlight-color:transparent}
+.nav-wrap{transition:box-shadow .3s}
+.card{transition:box-shadow .3s}
+::selection{background:#cde8c4;color:var(--gd)}
+
+.topbar .tb-v,.topbar .hide-xs{font-style:normal}
+/* fixed register bar (phones & tablets) */
+.mbar{display:none}
+@media(max-width:960px){
+ .reg-fab{display:none!important}
+ .mbar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:80;
+  padding:10px max(16px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+  background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(15,61,34,.12);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+ body.modal-open .mbar{transform:translateY(115%)}
+ .mbar-info{flex:1;min-width:0;line-height:1.25}
+ .mbar-info b{display:block;font-size:.9rem;color:var(--gd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .mbar-info small{display:flex;align-items:center;gap:6px;margin-top:2px;font-size:.74rem;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+ .mbar-info .dot{width:7px;height:7px;flex:none}
+ .mbar .btn{flex:none;padding:12px 20px;font-size:.95rem;animation:none;box-shadow:0 8px 20px rgba(234,122,0,.35)}
+ body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+ .totop{right:14px;bottom:calc(84px + env(safe-area-inset-bottom));width:42px;height:42px}
+ /* slide-ins move up instead of sideways, so nothing sits off-screen */
+ .from-l,.from-r{transform:translateY(28px)}
+ .nav-links{max-height:calc(100dvh - 80px);overflow-y:auto}
+ .nav-links a{font-size:1rem}
+}
+
+@media(max-width:600px){
+ .topbar{font-size:.74rem}
+ .topbar .container{min-height:34px;padding-block:7px;gap:6px}
+ .topbar .sep{margin:0 6px}
+ .navbar{min-height:66px}
+ .brand-logo{width:48px;height:48px}
+ .brand strong{font-size:1.08rem}
+ .menu-toggle{width:42px;height:42px}
+ .menu-toggle span{top:20px}
+ .hero{padding:26px 0 40px}
+ .hero-grid{gap:28px}
+ h1{font-size:clamp(2rem,9vw,2.4rem);margin-top:14px}
+ .tag{font-size:1.1rem;margin-bottom:10px}
+ .lead{font-size:.98rem}
+ .eyebrow{font-size:.7rem;padding:6px 12px}
+ .logos{gap:8px 10px;margin-top:16px}
+ .logos .chip{width:100%;justify-content:center}
+ .hero .cta{margin-top:22px;gap:14px}
+ .hero .btn-reg{animation:none;box-shadow:0 10px 22px rgba(234,122,0,.3)}
+ .tb-main{white-space:nowrap}
+ .topbar .hide-xs{display:none}
+ .cta-sub{display:grid;grid-template-columns:1fr;gap:10px}
+ .cta-sub .btn{width:100%;padding:13px 16px}
+ .hero-vis{width:min(100%,340px);margin-bottom:8px}
+ .photo:before{transform:translate(10px,10px)}
+ .count-wrap{margin-top:-20px;padding:18px 16px;gap:12px}
+ .count-wrap h2{font-size:1.05rem}
+ .count-wrap p{font-size:.8rem}
+ .cd{padding:9px 2px;border-radius:12px}
+ .cd span{font-size:.62rem}
+ .marquee{margin-top:40px;padding:11px 0}
+ .track span{font-size:.86rem}
+ section{padding:44px 0}
+ h2{font-size:clamp(1.55rem,7vw,1.9rem)}
+ .sub{margin:12px 0 22px;font-size:.95rem}
+ .stats{gap:10px}
+ .stat{padding:18px 10px}
+ .stat b{font-size:2rem}
+ .stat span{font-size:.8rem;line-height:1.35;display:block}
+ .video,.map{border-width:4px;border-radius:16px}
+ .news{gap:22px}
+ .news h3{font-size:1.18rem}
+ .who{font-size:.86rem}
+ .obj{padding:22px 20px}
+ .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ .tab{justify-content:center;padding:11px 8px;font-size:.84rem}
+ .tab .i{display:none}
+ .dayhead{padding:12px 14px;gap:10px}
+ .dayhead .di{width:36px;height:36px}
+ .dayhead .dc{margin-left:0}
+ .aud{padding:18px 14px}
+ .grid3[style]{grid-template-columns:1fr 1fr!important;gap:12px}
+ .aud .ic{width:50px;height:50px}
+ .honor{gap:10px}
+ .brochure{gap:10px}
+ .dl .btn{width:100%}
+ .venue-info h3{font-size:1.15rem}
+ .cta-band{border-radius:22px}
+ .cta-band .cta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .cta-band .cta .btn{width:100%;padding:12px 10px;font-size:.88rem}
+ .cta-band .cta .btn-reg{grid-column:1/-1}
+ .fp{padding:18px 16px}
+ .fl{height:64px}.fl img{max-height:56px}.fl img.u{max-height:64px}
+ .freg{margin-bottom:32px}
+ .fgrid{gap:28px}
+ .fbot{justify-content:center;text-align:center;margin-top:28px}
+ .lb button{top:calc(12px + env(safe-area-inset-top))}
+}
+@media(max-width:380px){
+ .brand strong{font-size:.98rem}
+ .topbar .container>span{font-size:.7rem}
+ .mbar-info small{display:none}
+ .mbar .btn{padding:12px 16px}
+ .cta-band .cta{grid-template-columns:1fr}
+ .topbar .sep{margin:0 4px}
+ .grid3[style]{grid-template-columns:1fr!important}
+}
+@media(prefers-reduced-motion:reduce){.mbar{transition:none}}
 </style>
 </head>
 <body class="loading">
@@ -592,7 +704,7 @@ body.modal-open{overflow:hidden}
 <div id="bar"></div>
 <div class="topbar">
  <div class="container">
-  <span><svg class="i"><use href="#i-cal"/></svg><b>11 &amp; 12 December 2026</b><i class="sep">|</i><svg class="i"><use href="#i-pin"/></svg>UCCIL, Bhubaneswar, Odisha</span>
+  <span class="tb-main"><svg class="i"><use href="#i-cal"/></svg><b>11 &amp; 12 Dec<i class="hide-xs">ember</i> 2026</b><i class="sep">|</i><svg class="i"><use href="#i-pin"/></svg><em class="tb-v">UCCIL, Bhubaneswar<i class="hide-xs">, Odisha</i></em></span>
   <span class="hide-m">Organised by <b>&nbsp;Maruti Media&nbsp;</b> in association with <b>&nbsp;UCCIL</b></span>
   <a class="hide-m" href="tel:+919437003344"><svg class="i"><use href="#i-phone"/></svg>+91 94370 03344</a>
  </div>
@@ -910,7 +1022,10 @@ body.modal-open{overflow:hidden}
  </div>
 </footer>
 
-<button type="button" class="btn btn-reg reg-fab" data-reg><svg class="i"><use href="#i-check"/></svg> Register now</button>
+<div class="mbar" id="mbar" role="region" aria-label="Registration">
+ <div class="mbar-info"><b>Free entry · 11 &amp; 12 Dec</b><small><span class="dot"></span><span id="mbarNote">Registration open</span></small></div>
+ <button type="button" class="btn btn-reg" data-reg>Register now <svg class="i arr"><use href="#i-arrow"/></svg></button>
+</div>
 
 <svg style="position:absolute;width:0;height:0" aria-hidden="true">
  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
@@ -1029,7 +1144,8 @@ body.modal-open{overflow:hidden}
  var iv=setInterval(tick,1000);tick();
  // scroll progress + back to top
  var bar=$('#bar'),top=$('#top');
- window.addEventListener('scroll',function(){var h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(p*100)+'%';top.classList.toggle('show',h.scrollTop>600)},{passive:true});
+ var nw=$('.nav-wrap');
+ window.addEventListener('scroll',function(){var h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(p*100)+'%';top.classList.toggle('show',h.scrollTop>600);nw.style.boxShadow=h.scrollTop>10?'0 8px 26px rgba(15,61,34,.12)':''},{passive:true});
  top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
  // scrollspy
  var links=$$('.nav-links a:not(.btn)'),secs=links.map(function(a){return $(a.getAttribute('href'))});
@@ -1217,6 +1333,7 @@ body.modal-open{overflow:hidden}
   var hasPass=!!loadPass();
   $$('[data-reg]').forEach(function(b){if(hasPass){b.innerHTML='<svg class="i"><use href="#i-qr"/></svg> View my pass';return}b.disabled=true;b.classList.add('closed');b.innerHTML='<svg class="i"><use href="#i-x"/></svg> Registration closed'});
   var note=$('#regNote'),left=$('#regLeft'),rt=$('#regCloseTitle'),rs=$('#regCloseSub'),fnote=$('#regFootNote');
+  var mnote=$('#mbarNote');if(mnote){mnote.textContent='Closed · call +91 94370 03344';if(mnote.previousElementSibling)mnote.previousElementSibling.className='dot off'}
   if(fnote){fnote.textContent='Registration closed';if(fnote.previousElementSibling)fnote.previousElementSibling.className='dot off'}
   if(note){note.textContent='Registration closed';if(note.previousElementSibling)note.previousElementSibling.className='dot off'}
   if(left)left.textContent='Registration closed';
@@ -1233,6 +1350,7 @@ body.modal-open{overflow:hidden}
   if(cd2)for(var k in v){var el=$('[data-u='+k+']',cd2);if(el)el.textContent=pad2(v[k])}
   var txt=v.d+'d '+pad2(v.h)+'h '+pad2(v.m)+'m '+pad2(v.s)+'s',note=$('#regNote'),left=$('#regLeft'),fnote=$('#regFootNote');
   if(fnote)fnote.textContent='Registration open · closes in '+txt;
+  var mnote=$('#mbarNote');if(mnote)mnote.textContent='Closes in '+(v.d?v.d+'d ':'')+pad2(v.h)+'h '+pad2(v.m)+'m '+pad2(v.s)+'s';
   if(note)note.textContent='Registration open · closes in '+txt;
   if(left)left.textContent='Closes in '+txt;
  }
