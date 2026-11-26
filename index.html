@@ -6,6 +6,9 @@
 <title>Farming in Odisha 2.0 | 11 &amp; 12 December 2026 | Bhubaneswar, Odisha</title>
 <meta name="description" content="Farming in Odisha 2.0: two-day workshops and seminars for agriculture and agri-entrepreneurs on 11 &amp; 12 December 2026 at UCCIL, Bhubaneswar. Schedule, objectives, video and brochure." />
 <meta name="theme-color" content="#15803d" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@600;700&display=swap" rel="stylesheet" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Farming in Odisha 2.0 – 11 & 12 December 2026, Bhubaneswar" />
 <meta property="og:description" content="Two-day workshop on agriculture and agri-entrepreneurship by UCCIL and Maruti Media." />
@@ -499,7 +502,10 @@ body.modal-open{overflow:hidden}
 .passes{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 10px;justify-content:center}
 .passes figure{flex:0 0 min(260px,78%);scroll-snap-align:center;margin:0}
 .passes img{width:100%;height:auto;border-radius:16px;box-shadow:0 14px 34px rgba(15,61,34,.22);background:#fff}
-.passes figcaption{margin-top:8px}
+.passes figcaption{margin-top:10px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.passes figcaption b{font-size:.92rem;color:var(--gd)}
+.pass-one{padding:8px 14px!important;font-size:.84rem!important}
+#passDl[hidden]{display:none}
 .pass-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
 .pass-actions .btn{padding:11px 18px;font-size:.9rem}
 .pass-note{font-size:.8rem;color:var(--muted);margin-top:14px}
@@ -946,7 +952,7 @@ body.modal-open{overflow:hidden}
   <div class="pass-view" id="regOk" hidden>
    <div class="tick"><svg class="i"><use href="#i-check"/></svg></div>
    <h3>You're registered!</h3>
-   <p>Here is your entry pass. Download it or take a screenshot, and show the QR code at the registration desk on 11 December.</p>
+   <p id="passLead">Here is your entry pass. Download it or take a screenshot, and show the QR code at the registration desk.</p>
    <div class="pass-id"><svg class="i"><use href="#i-qr"/></svg><span id="passId"></span></div>
    <div class="passes" id="passes"></div>
    <div class="pass-actions">
@@ -1080,12 +1086,13 @@ body.modal-open{overflow:hidden}
  syncCategory();
 
  // ---------- registration ID + entry pass (QR card) ----------
- var PASS_KEY='fio_pass_v1',CAT_COLOR={Guest:'#3b2a8f',Visitor:'#15803d',Startup:'#ea7a00'},rpass;
- function newRegId(){ // FIO26- + 6 chars, no look-alike characters (0/O, 1/I)
+ var PASS_KEY='fio_pass_v1',CAT_COLOR={Guest:'#2e2a7a',Visitor:'#0b6b2e',Startup:'#ea7a00'},rpass;
+ var ID_PREFIX='FARMODISHA'; // shown on every pass, e.g. FARMODISHA-K7Q2MX-1
+ function newRegId(){ // prefix + 6 chars, no look-alike characters (0/O, 1/I)
   var A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',out='',b=new Uint8Array(6);
   (window.crypto||window.msCrypto).getRandomValues(b);
   for(var i=0;i<6;i++)out+=A[b[i]%A.length];
-  return 'FIO26-'+out}
+  return ID_PREFIX+'-'+out}
  function savePass(r){try{localStorage.setItem(PASS_KEY,JSON.stringify(r))}catch(e){}}
  function loadPass(){try{var r=JSON.parse(localStorage.getItem(PASS_KEY)||'null');return r&&r.id&&r.visitor1?r:null}catch(e){return null}}
  function passList(r){var v=[r.visitor1];if(r.visitor2)v.push(r.visitor2);return v.map(function(name,i){return{name:name,code:r.id+'-'+(i+1),n:i+1,of:v.length,r:r}})}
@@ -1096,69 +1103,107 @@ body.modal-open{overflow:hidden}
   if(cur)lines.push(cur);
   if(lines.length>maxLines){lines=lines.slice(0,maxLines);var l=lines[maxLines-1];while(l&&x.measureText(l+'…').width>maxW)l=l.slice(0,-1);lines[maxLines-1]=l+'…'}
   return lines}
- function drawPass(p,logo){
-  var W=600,H=940,S=2,cv=document.createElement('canvas');cv.width=W*S;cv.height=H*S;
-  var x=cv.getContext('2d');x.scale(S,S);
-  var col=CAT_COLOR[p.r.category]||'#15803d',sans='600 16px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
-  // card
-  rr(x,0,0,W,H,28);x.save();x.clip();x.fillStyle='#ffffff';x.fillRect(0,0,W,H);
-  // header
-  var g=x.createLinearGradient(0,0,W,210);g.addColorStop(0,'#0f3d22');g.addColorStop(1,'#15803d');x.fillStyle=g;x.fillRect(0,0,W,206);
-  x.fillStyle='rgba(255,255,255,.07)';x.beginPath();x.arc(W-30,-10,150,0,7);x.fill();
-  var lx=40;
-  if(logo){x.fillStyle='#fff';x.beginPath();x.arc(84,96,48,0,7);x.fill();x.save();x.beginPath();x.arc(84,96,44,0,7);x.clip();x.drawImage(logo,40,52,88,88);x.restore();lx=152}
-  x.fillStyle='#fff';x.textBaseline='alphabetic';x.textAlign='left';
-  x.font='700 34px Georgia,"Playfair Display",serif';x.fillText('Farming in Odisha',lx,86);
-  var tw=x.measureText('Farming in Odisha ').width;x.fillStyle='#ffb35c';x.fillText('2.0',lx+tw,86);
-  x.fillStyle='#cfe6d3';x.font='italic 19px Georgia,serif';x.fillText('a birds’ eyeview',lx,116);
-  x.fillStyle='#ffffff';x.font=sans.replace('16px','16px');x.fillText('11 & 12 December 2026  ·  UCCIL, Bhubaneswar',lx,156);
+ // ---------- pass artwork (brochure theme) ----------
+ // Images and fonts the pass uses; each one is optional, and the pass still draws if it fails to load.
+ var PASS_ART={photo:null,maruti:null,uccil:null,odia:false};
+ function loadImg(src){return new Promise(function(res){var i=new Image();i.onload=function(){res(i)};i.onerror=function(){res(null)};i.src=src})}
+ function timeout(ms){return new Promise(function(res){setTimeout(res,ms)})}
+ var passAssetsReady=Promise.race([Promise.all([
+   loadImg('assets/brochure-cover-hero.jpg').then(function(i){PASS_ART.photo=i}),
+   loadImg('assets/maruti-media-logo.png').then(function(i){PASS_ART.maruti=i}),
+   loadImg('assets/uccil-logo.png').then(function(i){PASS_ART.uccil=i}),
+   (window.FontFace&&document.fonts?new FontFace('PassTitle','url(assets/fonts/Anton-Regular.ttf)').load().then(function(f){document.fonts.add(f)}).catch(function(){}):Promise.resolve()),
+   (document.fonts?document.fonts.load('700 28px "Noto Sans Oriya"','ଓଡ଼ିଶାରେ କୃଷି').then(function(f){PASS_ART.odia=f.length>0}).catch(function(){}):Promise.resolve())
+  ]),timeout(4000)]);
+ var SANS='system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif',TITLE='PassTitle,"Anton","Arial Narrow",Impact,sans-serif';
+ function fitFont(x,text,weight,size,family,maxW){x.font=weight+' '+size+'px '+family;while(size>9&&x.measureText(text).width>maxW){size--;x.font=weight+' '+size+'px '+family}return size}
+ function drawLogo(x,img,X,Y,h,maxW){if(!img)return 0;var w=Math.min(maxW,img.width*h/img.height),hh=w*img.height/img.width;x.drawImage(img,X,Y+(h-hh)/2,w,hh);return w}
+ function drawPass(p,art){
+  art=art||{};
+  var W=600,H=1100,S=2,cv=document.createElement('canvas');cv.width=W*S;cv.height=H*S;
+  var x=cv.getContext('2d');x.scale(S,S);x.textBaseline='alphabetic';
+  var col=CAT_COLOR[p.r.category]||'#0b6b2e',G='#0b6b2e',GD='#0b4d24',NAVY='#2e2a7a',LG='#a6cf5a';
+  rr(x,0,0,W,H,26);x.save();x.clip();x.fillStyle='#fff';x.fillRect(0,0,W,H);
+  // header: light green wash with the two-tone top strip
+  var hg=x.createLinearGradient(0,0,0,300);hg.addColorStop(0,'#f4f9e4');hg.addColorStop(1,'#d3e9a9');x.fillStyle=hg;x.fillRect(0,0,W,300);
+  x.fillStyle=LG;x.fillRect(0,0,W,22);
+  x.fillStyle=GD;x.beginPath();x.moveTo(330,0);x.lineTo(W,0);x.lineTo(W,22);x.lineTo(310,22);x.closePath();x.fill();
+  // title block, centred
+  var CX=W/2;x.textAlign='left';
+  x.font='400 54px '+TITLE;var t1=x.measureText('Farming in Odisha').width;x.font='400 30px '+TITLE;var t2=x.measureText('/2.0').width;
+  var tx=CX-(t1+8+t2)/2;x.fillStyle=G;x.font='400 54px '+TITLE;x.fillText('Farming in Odisha',tx,92);x.fillStyle=GD;x.font='400 30px '+TITLE;x.fillText('/2.0',tx+t1+8,92);
+  x.textAlign='center';x.fillStyle=GD;x.font='italic 21px Georgia,"Times New Roman",serif';x.fillText('-  a birds’ eyeview',CX,124);
+  var y=124;
+  if(art.odia){y+=40;x.textAlign='left';
+   x.font='700 27px "Noto Sans Oriya",'+SANS;var o1=x.measureText('ଓଡ଼ିଶାରେ କୃଷି/୨.୦').width;x.font='600 16px "Noto Sans Oriya",'+SANS;var o2=x.measureText('- ଏକ ବିହଙ୍ଗାବଲୋକନ').width;
+   var ox=CX-(o1+12+o2)/2;x.fillStyle=G;x.font='700 27px "Noto Sans Oriya",'+SANS;x.fillText('ଓଡ଼ିଶାରେ କୃଷି/୨.୦',ox,y);x.fillStyle=GD;x.font='600 16px "Noto Sans Oriya",'+SANS;x.fillText('- ଏକ ବିହଙ୍ଗାବଲୋକନ',ox+o1+12,y-2);x.textAlign='center'}
+  y+=34;x.fillStyle=NAVY;fitFont(x,'WORKSHOPS / SEMINARS FOR AGRICULTURE & AGRI ENTREPRENEURS','800',15,SANS,W-48);x.fillText('WORKSHOPS / SEMINARS FOR AGRICULTURE & AGRI ENTREPRENEURS',CX,y);
+  // date line, centred: 11th & 12th December 2026 | Bhubaneswar, Odisha
+  y+=30;x.textAlign='left';var seg=[['11','b'],['th','s'],[' & 12','b'],['th','s'],[' December 2026 ','b'],['|','r'],[' Bhubaneswar, Odisha','b']];
+  function segFont(s){x.font=s[1]==='s'?'700 11px '+SANS:'800 19px '+SANS}
+  var dw=0;seg.forEach(function(s){segFont(s);dw+=x.measureText(s[0]).width});var dx=CX-dw/2;
+  seg.forEach(function(s){segFont(s);x.fillStyle=s[1]==='r'?'#d61f26':'#111';x.fillText(s[0],dx,s[1]==='s'?y-8:y);dx+=x.measureText(s[0]).width});
+  // organisers row, centred as one group
+  var ly=y+18,mw=art.maruti?Math.min(130,art.maruti.width*44/art.maruti.height):100,uw0=art.uccil?Math.min(60,art.uccil.width*48/art.uccil.height):54;
+  x.font='700 13px '+SANS;var aw=Math.min(x.measureText('The Utkal Chamber of Commerce & Industry Ltd.').width,W-48-mw-uw0-24);
+  var lx=CX-(mw+12+uw0+12+aw)/2;
+  if(!drawLogo(x,art.maruti,lx,ly,44,130)){x.fillStyle='#f39200';x.font='800 22px '+SANS;x.fillText('MARUTI',lx,ly+28);x.fillStyle='#7b2d8b';x.font='700 11px '+SANS;x.fillText('MEDIA',lx+60,ly+42)}
+  lx+=mw+12;
+  if(!drawLogo(x,art.uccil,lx,ly-2,48,60)){x.fillStyle='#c62828';x.font='800 16px '+SANS;x.fillText('UCCIL',lx,ly+30)}
+  lx+=uw0+12;x.fillStyle=NAVY;x.font='600 12px '+SANS;x.fillText('In Association with',lx,ly+18);
+  fitFont(x,'The Utkal Chamber of Commerce & Industry Ltd.','700',13,SANS,aw);x.fillText('The Utkal Chamber of Commerce & Industry Ltd.',lx,ly+36);
+  x.textAlign='center';
+  // two-tone divider
+  var dy=300;x.fillStyle=LG;x.fillRect(0,dy,W,12);x.fillStyle=GD;x.beginPath();x.moveTo(250,dy);x.lineTo(W,dy);x.lineTo(W,dy+12);x.lineTo(232,dy+12);x.closePath();x.fill();
+  // photo band from the brochure cover
+  var py=dy+12,ph=150;
+  if(art.photo){var im=art.photo,sw=im.width,sh=sw*ph/W,sy=Math.min(im.height-sh,im.height*0.6);x.drawImage(im,0,sy,sw,sh,0,py,W,ph)}
+  else{var pg=x.createLinearGradient(0,py,0,py+ph);pg.addColorStop(0,'#cfe7f3');pg.addColorStop(.55,'#e8f2d6');pg.addColorStop(.56,'#7fb848');pg.addColorStop(1,'#4f8f2a');x.fillStyle=pg;x.fillRect(0,py,W,ph)}
   // category band
-  x.fillStyle=col;x.fillRect(0,206,W,64);
-  x.fillStyle='#fff';x.textAlign='center';x.font='800 30px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
-  if('letterSpacing' in x)x.letterSpacing='8px';x.fillText(p.r.category.toUpperCase(),W/2+4,250);if('letterSpacing' in x)x.letterSpacing='0px';
-  // name + org
-  x.fillStyle='#15301f';x.font='700 34px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
-  var nl=wrapLines(x,p.name,W-80,2),y=328;nl.forEach(function(l){x.fillText(l,W/2,y);y+=40});
-  if(p.r.org){x.fillStyle='#52665a';x.font='500 19px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';wrapLines(x,p.r.org,W-100,1).forEach(function(l){x.fillText(l,W/2,y+2)});y+=30}
-  // QR
-  var q=270,qx=(W-q)/2,qy=Math.max(y+30,410),pad=30; // wide white margin helps phone scanners
-  rr(x,qx-pad,qy-pad,q+pad*2,q+pad*2,20);x.fillStyle='#fff';x.fill();x.lineWidth=2;x.strokeStyle='#dbe8d5';x.stroke();
-  if(window.FioQR){var m=window.FioQR.matrix(p.code,'M'),cell=Math.floor(q/m.size),o=Math.round((q-cell*m.size)/2);x.fillStyle='#0f3d22';
+  var cy=py+ph;x.fillStyle=col;x.fillRect(0,cy,W,58);
+  x.fillStyle='#fff';x.textAlign='center';x.font='400 32px '+TITLE;if('letterSpacing' in x)x.letterSpacing='7px';x.fillText(p.r.category.toUpperCase(),W/2+3,cy+42);if('letterSpacing' in x)x.letterSpacing='0px';
+  // name + organisation
+  x.fillStyle='#10301c';x.font='800 33px '+SANS;y=cy+58+50;wrapLines(x,p.name,W-70,2).forEach(function(l){x.fillText(l,W/2,y);y+=38});
+  if(p.r.org){x.fillStyle='#52665a';x.font='500 18px '+SANS;wrapLines(x,p.r.org,W-90,1).forEach(function(l){x.fillText(l,W/2,y)});y+=24}
+  // QR with a wide white margin
+  var q=250,pad=26,qx=(W-q)/2,qy=y+pad+6;
+  rr(x,qx-pad,qy-pad,q+pad*2,q+pad*2,18);x.fillStyle='#fff';x.fill();x.lineWidth=2.5;x.strokeStyle='#c4e08f';x.stroke();
+  if(window.FioQR){var m=window.FioQR.matrix(p.code,'M'),cell=Math.floor(q/m.size),o=Math.round((q-cell*m.size)/2);x.fillStyle='#0b3d1f';
    for(var r=0;r<m.size;r++)for(var c=0;c<m.size;c++)if(m.isDark(r,c))x.fillRect(qx+o+c*cell,qy+o+r*cell,cell,cell)}
-  else{x.fillStyle='#52665a';x.font=sans;x.fillText('QR unavailable – use the ID below',W/2,qy+q/2)}
-  // ID
-  var iy=qy+q+pad+46;x.fillStyle='#15301f';x.font='800 30px ui-monospace,"Cascadia Mono",Consolas,monospace';x.fillText(p.code,W/2,iy);
-  x.fillStyle='#52665a';x.font='500 16px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
-  x.fillText((p.of>1?'Visitor '+p.n+' of '+p.of+'  ·  ':'')+'Show this QR at the registration desk',W/2,iy+32);
-  // footer: session times + organisers
-  var fy=H-112;x.strokeStyle='#dbe8d5';x.lineWidth=1.5;x.setLineDash([6,6]);x.beginPath();x.moveTo(40,fy);x.lineTo(W-40,fy);x.stroke();x.setLineDash([]);
-  x.fillStyle='#0f3d22';x.font='700 16px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
-  x.fillText('Day 1 · 11 Dec, 10:00 AM     Day 2 · 12 Dec, 10:30 AM',W/2,fy+36);
-  x.fillStyle='#52665a';x.font='500 14px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
-  x.fillText('Conference Hall, UCCIL, Bhubaneswar  ·  Maruti Media & UCCIL',W/2,fy+62);
-  // footer stripe
-  var f=x.createLinearGradient(0,0,W,0);f.addColorStop(0,'#15803d');f.addColorStop(1,'#ea7a00');x.fillStyle=f;x.fillRect(0,H-14,W,14);
+  else{x.fillStyle='#52665a';x.font='600 15px '+SANS;x.fillText('QR unavailable, use the ID below',W/2,qy+q/2)}
+  var iy=qy+q+pad+40;x.fillStyle='#10301c';fitFont(x,p.code,'800',29,'ui-monospace,"Cascadia Mono",Consolas,monospace',W-60);x.fillText(p.code,W/2,iy);
+  x.fillStyle='#52665a';x.font='500 15px '+SANS;x.fillText((p.of>1?'Pass '+p.n+' of '+p.of+'  ·  ':'')+'Valid for this person only · Show at the desk',W/2,iy+28);
+  // footer band
+  var fy=H-84,fg=x.createLinearGradient(0,fy,0,H);fg.addColorStop(0,'#eef6d8');fg.addColorStop(1,'#d3e9a9');x.fillStyle=fg;x.fillRect(0,fy,W,84);
+  x.fillStyle=GD;x.font='800 15px '+SANS;x.fillText('Day 1 · 11 Dec, 10:00 AM      Day 2 · 12 Dec, 10:30 AM',W/2,fy+30);
+  x.fillStyle=NAVY;x.font='600 13px '+SANS;x.fillText('Venue: Conference Hall, UCCIL, Bhubaneswar',W/2,fy+52);
+  x.fillStyle=LG;x.fillRect(0,H-12,W,12);x.fillStyle=GD;x.beginPath();x.moveTo(330,H-12);x.lineTo(W,H-12);x.lineTo(W,H);x.lineTo(312,H);x.closePath();x.fill();
   x.restore();
   return cv}
- function canvasUrl(p,logo){ // a logo from a file:// page can block export, so retry without it
-  try{return drawPass(p,logo).toDataURL('image/png')}catch(e){return drawPass(p,null).toDataURL('image/png')}}
- var logoImg=null,logoReady=new Promise(function(res){var i=new Image();i.onload=function(){logoImg=i;res()};i.onerror=function(){res()};i.src='assets/farming-logo.jpg';setTimeout(res,2500)});
+ function canvasUrl(p){ // images from a file:// page can block export, so retry with text-only artwork
+  try{return drawPass(p,PASS_ART).toDataURL('image/png')}catch(e){return drawPass(p,{odia:PASS_ART.odia}).toDataURL('image/png')}}
  function slug(s){return String(s).replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').slice(0,30)}
  function showPass(r){
   rpass=r;rf.hidden=true;if(rcl)rcl.hidden=true;rok.hidden=false;$('#passId').textContent=r.id;
   var box=$('#passes'),pr=$('#passPrint');box.innerHTML='<p class="pass-note">Creating your pass…</p>';
-  logoReady.then(function(){
+  passAssetsReady.then(function(){
    box.innerHTML='';pr.innerHTML='';
    passList(r).forEach(function(p){
-    var url=canvasUrl(p,logoImg),fig=document.createElement('figure'),img=new Image();
-    img.src=url;img.alt='Entry pass for '+p.name+', '+r.category+', ID '+p.code;img.dataset.file='FIO26-pass-'+p.code+'-'+slug(p.name)+'.png';
+    var url=canvasUrl(p),fig=document.createElement('figure'),img=new Image();
+    img.src=url;img.alt='Entry pass for '+p.name+', '+r.category+', ID '+p.code;img.dataset.file='Pass-'+slug(p.name)+'-'+p.code+'.png';
     fig.appendChild(img);
-    if(p.of>1){var cap=document.createElement('figcaption');cap.className='pass-note';cap.textContent=p.name;fig.appendChild(cap)}
+    var cap=document.createElement('figcaption');
+    var who=document.createElement('b');who.textContent=(p.of>1?'Pass '+p.n+': ':'')+p.name;cap.appendChild(who);
+    var dl=document.createElement('button');dl.type='button';dl.className='btn btn-ghost pass-one';dl.innerHTML='<svg class="i"><use href="#i-dl"/></svg> ';
+    dl.appendChild(document.createTextNode(p.of>1?'Download '+p.name.split(' ')[0]+'’s pass':'Download pass'));
+    dl.addEventListener('click',function(){downloadImg(img)});cap.appendChild(dl);fig.appendChild(cap);
     box.appendChild(fig);var pi=new Image();pi.src=url;pi.alt='';pr.appendChild(pi)});
-   $('#passDl span').textContent=passList(r).length>1?'Download passes':'Download pass';
+   var many=passList(r).length>1;$('#passDl').hidden=!many;$('#passDl span').textContent='Download both passes';
+   $('#passLead').textContent=many?'One pass has been created for each visitor, with their own name and QR code. Each person shows their own pass at the registration desk.':'Here is your entry pass. Download it or take a screenshot, and show the QR code at the registration desk.';
   })}
  $('#passDl').addEventListener('click',function(){
-  $$('#passes img').forEach(function(img,i){setTimeout(function(){var a=document.createElement('a');a.href=img.src;a.download=img.dataset.file;document.body.appendChild(a);a.click();a.remove()},i*400)})});
+  $$('#passes img').forEach(function(img,i){setTimeout(function(){downloadImg(img)},i*500)})});
+ function downloadImg(img){var a=document.createElement('a');a.href=img.src;a.download=img.dataset.file;document.body.appendChild(a);a.click();a.remove()}
  $('#passPrintBtn').addEventListener('click',function(){window.print()});
  $('#passAnother').addEventListener('click',function(){if(isClosed()){closeRegistration();return}rok.hidden=true;rf.hidden=false;$('#prevPass').hidden=true;rmsg.textContent='';$('input[name=category]',rf).focus()});
  $('#prevShow').addEventListener('click',function(){var s=loadPass();if(s)showPass(s)});
