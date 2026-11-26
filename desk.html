@@ -97,6 +97,27 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
 .log .n{font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .log .c{font-family:ui-monospace,Consolas,monospace;font-size:.8rem;color:var(--muted)}
 .log .t{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+/* checked-in list */
+.ci-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.ci-count{display:inline-grid;place-items:center;min-width:28px;height:24px;padding:0 8px;margin-left:6px;border-radius:999px;background:var(--g);color:#fff;font-size:.8rem;letter-spacing:0;vertical-align:middle}
+.ci-tools{display:flex;gap:6px}
+.tbtn2{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--gd);font-weight:700;font-size:.8rem;cursor:pointer}
+.tbtn2:hover{border-color:var(--g)}
+.ci-filters{display:grid;gap:10px;margin-bottom:6px}
+.ci-filters input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);font-size:.92rem}
+.ci-filters input:focus{outline:0;border-color:var(--g);background:#fff}
+.ci-chips{display:flex;gap:6px;flex-wrap:wrap}
+.ci-chips button{padding:5px 12px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--muted);font-weight:700;font-size:.8rem;cursor:pointer}
+.ci-chips button.on{background:var(--gd);border-color:var(--gd);color:#fff}
+.ci-list{list-style:none;max-height:420px;overflow:auto;margin:0 -6px;padding:0 6px}
+.ci-list li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 2px;border-top:1px solid var(--line)}
+.ci-list li:first-child{border-top:0}
+.ci-name{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ci-time{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.ci-meta{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:.8rem;color:var(--muted)}
+.ci-meta .badge{padding:2px 9px;font-size:.7rem}
+.ci-meta .mono{font-family:ui-monospace,Consolas,monospace}
+.ci-empty{color:var(--muted);padding:14px 2px!important;display:block!important}
 /* pin gate */
 .gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:18px;background:linear-gradient(180deg,#f4f9e4,#d3e9a9)}
 .gate[hidden]{display:none}
@@ -187,6 +208,22 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
    <h2>Recent scans</h2>
    <ul class="log" id="log"><li style="color:var(--muted)">Nothing scanned yet.</li></ul>
   </section>
+  <section class="card pad ci" style="margin-top:18px">
+   <div class="ci-head">
+    <h2 style="margin:0">Checked in <span class="ci-count" id="ciCount">0</span></h2>
+    <div class="ci-tools">
+     <button class="tbtn2" id="ciRefresh" type="button" title="Refresh"><svg class="i"><use href="#i-refresh"/></svg></button>
+     <button class="tbtn2" id="ciCsv" type="button">CSV</button>
+    </div>
+   </div>
+   <div class="ci-filters">
+    <input id="ciSearch" type="search" placeholder="Search name, organisation or pass ID" autocomplete="off">
+    <div class="ci-chips" id="ciChips">
+     <button type="button" class="on" data-cat="">All</button><button type="button" data-cat="Guest">Guest</button><button type="button" data-cat="Visitor">Visitor</button><button type="button" data-cat="Startup">Startup</button>
+    </div>
+   </div>
+   <ul class="ci-list" id="ciList"><li class="ci-empty">Loading…</li></ul>
+  </section>
  </section>
 </main>
 
@@ -201,15 +238,14 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
  var PIN_KEY='fio_desk_pin';
 
  /* ---------- clean address: show /desk instead of /desk.html ---------- */
- (function cleanUrl(){
+ function removeHtmlExtension(){
+  if(location.protocol==='file:'||!window.history||!history.replaceState)return;
   var path=location.pathname;
-  if(!/\.html$/i.test(path)||location.protocol==='file:'||!history.replaceState)return;
-  var clean=path.replace(/(index)?\.html$/i,'');
-  // only switch if the server also answers on the clean address, so a reload never shows 404
-  fetch(clean,{method:'HEAD',cache:'no-store'}).then(function(r){
-   if(r.ok)history.replaceState(history.state,'',clean+location.search+location.hash);
-  }).catch(function(){});
- })();
+  if(!/\.html$/i.test(path))return;
+  var clean=path.replace(/\/index\.html$/i,'/').replace(/\.html$/i,'');
+  history.replaceState(history.state,'',clean+location.search+location.hash);
+ }
+ removeHtmlExtension();
  var pin='';
  try{pin=sessionStorage.getItem(PIN_KEY)||''}catch(e){}
 
@@ -228,7 +264,7 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
  function unlock(p,silent){
   pin=p;$('#gateBtn').disabled=true;$('#gateErr').textContent='';
   return call('ping').then(function(d){
-   if(d.ok){try{sessionStorage.setItem(PIN_KEY,pin)}catch(e){}$('#gate').hidden=true;loadStats();setTimeout(function(){$('#code').focus()},50);return}
+   if(d.ok){try{sessionStorage.setItem(PIN_KEY,pin)}catch(e){}$('#gate').hidden=true;loadStats();loadCheckins();setTimeout(function(){$('#code').focus()},50);return}
    pin='';try{sessionStorage.removeItem(PIN_KEY)}catch(e){}
    $('#gate').hidden=false;
    if(!silent)$('#gateErr').textContent=d.error==='server_error'?(d.message||'Server error'):d.error==='not_configured'?'The desk PIN is not set up in the Apps Script yet (Script properties → DESK_PIN).':'Wrong PIN. Try again.';
@@ -251,7 +287,39 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
    var st=$('#stats');st.innerHTML=html;st.hidden=false;
   }).catch(function(){});
  }
- setInterval(function(){if(pin&&$('#gate').hidden)loadStats()},60000);
+ setInterval(function(){if(pin&&$('#gate').hidden){loadStats();loadCheckins()}},60000);
+
+ /* ---------- checked-in list ---------- */
+ var ciItems=[],ciCat='';
+ function loadCheckins(){
+  return call('checkins').then(function(d){if(d.ok){ciItems=d.items||[];renderCheckins()}else if(d.error==='server_error'){$('#ciList').innerHTML='<li class="ci-empty">'+esc(d.message||'Could not load the list.')+'</li>'}})
+   .catch(function(){if(!ciItems.length)$('#ciList').innerHTML='<li class="ci-empty">Could not load the list. Check the connection.</li>'});
+ }
+ function ciFiltered(){
+  var q=$('#ciSearch').value.trim().toLowerCase();
+  return ciItems.filter(function(it){
+   if(ciCat&&it.category!==ciCat)return false;
+   return !q||(it.name+' '+it.org+' '+it.code).toLowerCase().indexOf(q)>-1});
+ }
+ function renderCheckins(){
+  var list=ciFiltered();
+  $('#ciCount').textContent=ciCat||$('#ciSearch').value.trim()?list.length+' / '+ciItems.length:ciItems.length;
+  if(!list.length){$('#ciList').innerHTML='<li class="ci-empty">'+(ciItems.length?'No matches.':'No one has checked in yet.')+'</li>';return}
+  $('#ciList').innerHTML=list.map(function(it){
+   return '<li><span class="ci-name">'+esc(it.name)+'</span><span class="ci-time">'+esc(fmtTime(it.at))+'</span>'+
+    '<span class="ci-meta"><span class="badge cat cat-'+esc(it.category)+'">'+esc(it.category)+'</span>'+
+    (it.org?'<span>'+esc(it.org)+'</span>':'')+'<span class="mono">'+esc(it.code)+'</span>'+(it.of>1?'<span>Visitor '+it.n+' of '+it.of+'</span>':'')+'</span></li>'}).join('');
+ }
+ $('#ciSearch').addEventListener('input',renderCheckins);
+ $('#ciChips').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;ciCat=b.dataset.cat;
+  [].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});renderCheckins()});
+ $('#ciRefresh').addEventListener('click',function(){loadStats();loadCheckins()});
+ $('#ciCsv').addEventListener('click',function(){
+  var rows=[['Checked in','Name','Category','Organisation','Pass ID','Visitor']].concat(ciFiltered().map(function(it){return[fmtTime(it.at),it.name,it.category,it.org,it.code,it.n+' of '+it.of]}));
+  var csv=rows.map(function(r){return r.map(function(v){v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(',')}).join('\r\n');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download='checked-in-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
+ });
 
  /* ---------- feedback ---------- */
  var actx;
@@ -331,7 +399,7 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
   busy=true;$('#result').style.opacity='.6';
   call(forceCheckin||$('#auto').checked?'checkin':'verify',{code:code})
    .then(function(d){
-    if(d.ok){render(d.status,d,code);if(d.status==='checked_in')loadStats();return}
+    if(d.ok){render(d.status,d,code);if(d.status==='checked_in'){loadStats();loadCheckins()}return}
     if(d.error==='bad_pin'){$('#lockBtn').click();$('#gateErr').textContent='The desk PIN changed. Enter the new PIN.';return}
     render(STATES[d.error]?d.error:'error',d,code,d.message||d.error);
    })
