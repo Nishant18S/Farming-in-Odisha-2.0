@@ -171,7 +171,10 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
   <p class="hint">Type the ID printed under the QR, or use a USB/Bluetooth QR scanner with this box selected.</p>
   <div class="row" style="justify-content:space-between">
    <label class="switch"><input type="checkbox" id="auto" checked> Check in automatically on scan</label>
-   <label class="switch"><input type="checkbox" id="sound" checked> Sound</label>
+   <span style="display:inline-flex;gap:18px;flex-wrap:wrap">
+    <label class="switch"><input type="checkbox" id="voice" checked> Voice</label>
+    <label class="switch"><input type="checkbox" id="sound" checked> Sound</label>
+   </span>
   </div>
  </section>
 
@@ -196,6 +199,17 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
  var JSQR_URL='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
  var CODE_RE=/^(FARMODISHA|FIO26)-[A-Z0-9]{6}(-[12])?$/;
  var PIN_KEY='fio_desk_pin';
+
+ /* ---------- clean address: show /desk instead of /desk.html ---------- */
+ (function cleanUrl(){
+  var path=location.pathname;
+  if(!/\.html$/i.test(path)||location.protocol==='file:'||!history.replaceState)return;
+  var clean=path.replace(/(index)?\.html$/i,'');
+  // only switch if the server also answers on the clean address, so a reload never shows 404
+  fetch(clean,{method:'HEAD',cache:'no-store'}).then(function(r){
+   if(r.ok)history.replaceState(history.state,'',clean+location.search+location.hash);
+  }).catch(function(){});
+ })();
  var pin='';
  try{pin=sessionStorage.getItem(PIN_KEY)||''}catch(e){}
 
@@ -221,7 +235,9 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
   }).catch(function(e){$('#gate').hidden=false;$('#gateErr').textContent='Cannot reach the server. '+e.message})
   .then(function(){$('#gateBtn').disabled=false});
  }
- $('#gateForm').addEventListener('submit',function(e){e.preventDefault();unlock($('#pin').value.trim())});
+ $('#gateForm').addEventListener('submit',function(e){e.preventDefault();warmVoice();unlock($('#pin').value.trim())});
+ function warmVoice(){try{if(synth&&!warmVoice.done){warmVoice.done=true;var u=new SpeechSynthesisUtterance(' ');u.volume=0;synth.speak(u)}}catch(e){}}
+ document.addEventListener('click',warmVoice,{once:true});
  $('#lockBtn').addEventListener('click',function(){stopCam();pin='';try{sessionStorage.removeItem(PIN_KEY)}catch(e){}$('#pin').value='';$('#gate').hidden=false;$('#pin').focus()});
  if(pin)unlock(pin,true);else $('#pin').focus();
 
@@ -245,6 +261,26 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
    var tones=kind==='ok'?[880,1320]:kind==='warn'?[520,520]:kind==='info'?[700]:[220,180];
    tones.forEach(function(f,i){var o=actx.createOscillator(),g=actx.createGain(),t=actx.currentTime+i*.14;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.25,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.12);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.13)})}catch(e){}
   if(navigator.vibrate)navigator.vibrate(kind==='ok'?60:kind==='bad'?[120,60,120]:[80,40,80]);
+ }
+ /* ---------- voice announcement ("Asha Kumari Pradhan, approved") ---------- */
+ var synth=window.speechSynthesis,voice=null;
+ function pickVoice(){
+  if(!synth)return;var vs=synth.getVoices();if(!vs.length)return;
+  var pref=[function(v){return /en-IN/i.test(v.lang)&&/female|heera|veena|neerja|google/i.test(v.name)},function(v){return /en-IN/i.test(v.lang)},
+   function(v){return /^en/i.test(v.lang)&&/google|natural|online/i.test(v.name)},function(v){return /^en/i.test(v.lang)}];
+  for(var i=0;i<pref.length&&!voice;i++)voice=vs.filter(pref[i])[0]||null;
+ }
+ if(synth){pickVoice();if('onvoiceschanged' in synth)synth.onvoiceschanged=pickVoice}
+ function speak(text){
+  if(!synth||!$('#voice').checked||!text)return;
+  try{synth.cancel();var u=new SpeechSynthesisUtterance(text);if(voice){u.voice=voice;u.lang=voice.lang}else u.lang='en-IN';u.rate=1;u.pitch=1;u.volume=1;synth.speak(u)}catch(e){}
+ }
+ function spokenName(n){return String(n||'').replace(/^'/,'').replace(/\b(Dr|Mr|Mrs|Ms|Shri|Smt)\.\s*/gi,'$1 ').trim()}
+ function announce(state,d){
+  var n=d&&d.ok?spokenName(d.name):'';
+  var t={checked_in:n+', approved.',valid:n+', valid pass.',already:n?n+', already checked in.':'Already checked in.',
+   not_found:'Not registered.',invalid_code:'Not an event pass.',error:'Could not verify. Please try again.'}[state];
+  speak(t||'Could not verify.');
  }
  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
  function fmtTime(v){if(!v)return'';var d=new Date(v);if(isNaN(d))return String(v);return d.toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
@@ -274,6 +310,7 @@ select{padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);backg
   el.className='result '+s.cls;void el.offsetWidth;el.classList.add('pop');el.innerHTML=h;
   var b=$('#doCheckin');if(b)b.addEventListener('click',function(){verify(d.code,true,true)});
   beep(s.cls==='ok'?'ok':s.cls==='warn'?'warn':s.cls==='info'?'info':'bad');
+  setTimeout(function(){announce(STATES[state]?state:'error',d)},($('#sound').checked?280:0));
   addLog(s.cls,d&&d.ok?d.name:s.title,d&&d.code||code);
  }
  var logItems=[];

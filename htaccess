@@ -1,0 +1,13 @@
+# Farming in Odisha 2.0 – clean URLs (Apache / LiteSpeed, e.g. Hostinger)
+# /desk shows desk.html, and /desk.html redirects to /desk
+Options -MultiViews
+RewriteEngine On
+
+# 1) /desk.html  ->  /desk   (also works for any other .html page)
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L,NE]
+
+# 2) /desk  ->  serves desk.html (if that file exists)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
