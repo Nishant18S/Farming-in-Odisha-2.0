@@ -648,6 +648,29 @@ h1,h2,.brand strong,.ld-title{letter-spacing:-.015em}
  .grid3[style]{grid-template-columns:1fr!important}
 }
 @media(prefers-reduced-motion:reduce){.mbar{transition:none}}
+/* live registration counts */
+.regstats{margin-top:18px;padding:22px 24px}
+.rs-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.rs-h h2{font-size:1.35rem}.rs-h h2:after{display:none}
+.rs-live{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#b91c1c;margin-bottom:4px}
+.rs-live i{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:ping2 1.6s infinite}
+@keyframes ping2{0%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}100%{box-shadow:0 0 0 9px rgba(239,68,68,0)}}
+.rs-total{text-align:right;line-height:1.1}.rs-total b{display:block;font-family:Georgia,serif;font-size:2.3rem;color:var(--gd);font-variant-numeric:tabular-nums}.rs-total span{font-size:.78rem;color:var(--muted);font-weight:600}
+.rs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rs{--cc:var(--g1);position:relative;border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;overflow:hidden}
+.rs::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cc)}
+.rs.c-guest{--cc:var(--ind)}.rs.c-startup{--cc:var(--or)}
+.rs .ic{grid-row:span 2;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#fff;background:var(--cc)}
+.rs .ic .i{width:22px;height:22px}
+.rs b{font-family:Georgia,serif;font-size:1.9rem;line-height:1;color:var(--gd);font-variant-numeric:tabular-nums}
+.rs span{font-size:.82rem;font-weight:600;color:var(--muted)}
+.rs .bar{grid-column:1/-1;height:6px;border-radius:6px;background:var(--bg2);overflow:hidden;margin-top:8px}
+.rs .bar i{display:block;height:100%;width:0;border-radius:6px;background:var(--cc);transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.rs-note{font-size:.76rem;color:var(--muted);margin-top:12px}
+.cat-n{display:block;font-style:normal;font-size:.7rem;font-weight:700;color:var(--cc);margin-top:2px}
+.cat-n:empty{display:none}
+@media(max-width:700px){.rs-grid{grid-template-columns:1fr}.rs{padding:14px}.rs-total{text-align:left}.regstats{padding:18px 16px}}
+
 </style>
 </head>
 <body class="loading">
@@ -773,6 +796,18 @@ h1,h2,.brand strong,.ld-title{letter-spacing:-.015em}
    <div class="cd"><b data-u="m">0</b><span>Mins</span></div>
    <div class="cd"><b data-u="s">0</b><span>Secs</span></div>
   </div>
+ </div>
+ <div class="regstats card reveal" id="regStats" hidden aria-live="polite">
+  <div class="rs-h">
+   <div><span class="rs-live"><i></i>Live</span><h2>Registered so far</h2></div>
+   <div class="rs-total"><b id="rsTotal">0</b><span>people registered</span></div>
+  </div>
+  <div class="rs-grid">
+   <div class="rs c-guest"><span class="ic"><svg class="i"><use href="#i-star"/></svg></span><b data-rc="Guest">0</b><span>Guests</span><span class="bar"><i data-rb="Guest"></i></span></div>
+   <div class="rs c-visitor"><span class="ic"><svg class="i"><use href="#i-users"/></svg></span><b data-rc="Visitor">0</b><span>Visitors</span><span class="bar"><i data-rb="Visitor"></i></span></div>
+   <div class="rs c-startup"><span class="ic"><svg class="i"><use href="#i-rocket"/></svg></span><b data-rc="Startup">0</b><span>Startups</span><span class="bar"><i data-rb="Startup"></i></span></div>
+  </div>
+  <p class="rs-note" id="rsNote">Counts update automatically.</p>
  </div>
 </div>
 
@@ -1049,9 +1084,9 @@ h1,h2,.brand strong,.ld-title{letter-spacing:-.015em}
    <fieldset class="cats" id="regCats">
     <legend>Register as<span class="req">*</span></legend>
     <div class="cat-grid">
-     <label class="cat c-guest"><input type="radio" name="category" value="Guest" required><span><svg class="i"><use href="#i-star"/></svg><span><b>Guest</b><small>Invited guests, speakers &amp; dignitaries</small></span></span></label>
-     <label class="cat c-visitor"><input type="radio" name="category" value="Visitor"><span><svg class="i"><use href="#i-users"/></svg><span><b>Visitor</b><small>Farmers, students &amp; the public</small></span></span></label>
-     <label class="cat c-startup"><input type="radio" name="category" value="Startup"><span><svg class="i"><use href="#i-rocket"/></svg><span><b>Startup</b><small>Agri startups &amp; entrepreneurs</small></span></span></label>
+     <label class="cat c-guest"><input type="radio" name="category" value="Guest" required><span><svg class="i"><use href="#i-star"/></svg><span><b>Guest</b><small>Invited guests, speakers &amp; dignitaries</small><em class="cat-n" data-cn="Guest"></em></span></span></label>
+     <label class="cat c-visitor"><input type="radio" name="category" value="Visitor"><span><svg class="i"><use href="#i-users"/></svg><span><b>Visitor</b><small>Farmers, students &amp; the public</small><em class="cat-n" data-cn="Visitor"></em></span></span></label>
+     <label class="cat c-startup"><input type="radio" name="category" value="Startup"><span><svg class="i"><use href="#i-rocket"/></svg><span><b>Startup</b><small>Agri startups &amp; entrepreneurs</small><em class="cat-n" data-cn="Startup"></em></span></span></label>
     </div>
    </fieldset>
    <div class="fld full"><label for="rEmail">Email ID<span class="req">*</span></label><div class="wrap"><svg class="i"><use href="#i-mail"/></svg><input id="rEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required></div></div>
@@ -1182,7 +1217,7 @@ h1,h2,.brand strong,.ld-title{letter-spacing:-.015em}
   var body=new URLSearchParams({id:rec.id,category:rec.category,email:rec.email,org:rec.org,visitor1:rec.visitor1,visitor2:rec.visitor2,mobile:rec.mobile});
   rbtn.disabled=true;rbtn.classList.add('busy');
   fetch(REG_URL,{method:'POST',body:body,mode:'no-cors'})
-   .then(function(){savePass(rec);rf.reset();syncCategory();showPass(rec)})
+   .then(function(){savePass(rec);rf.reset();syncCategory();showPass(rec);bumpCounts(rec)})
    .catch(function(){regErr('Network problem. Please check your connection and try again.')})
    .then(function(){rbtn.disabled=false;rbtn.classList.remove('busy')});
  });
@@ -1355,6 +1390,31 @@ h1,h2,.brand strong,.ld-title{letter-spacing:-.015em}
   if(left)left.textContent='Closes in '+txt;
  }
  regTick();regIv=setInterval(regTick,1000);
+
+ // ---------- live registration counts (numbers only, from the registration sheet) ----------
+ var RC={total:0,byCategory:{Guest:0,Visitor:0,Startup:0}},rcShown=false;
+ function animateNum(el,to){var from=+el.textContent.replace(/\D/g,'')||0;if(from===to){el.textContent=to.toLocaleString('en-IN');return}var s=null;function f(ts){s=s||ts;var p=Math.min((ts-s)/900,1);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3))).toLocaleString('en-IN');if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+ function paintCounts(){
+  var box=$('#regStats');if(!box)return;box.hidden=false;
+  if(!rcShown){rcShown=true;box.classList.add('in')}
+  var max=Math.max(1,RC.byCategory.Guest||0,RC.byCategory.Visitor||0,RC.byCategory.Startup||0);
+  animateNum($('#rsTotal'),RC.total||0);
+  ['Guest','Visitor','Startup'].forEach(function(c){var n=RC.byCategory[c]||0;
+   animateNum($('[data-rc="'+c+'"]'),n);$('[data-rb="'+c+'"]').style.width=Math.max(n?6:0,n/max*100)+'%';
+   var cn=$('[data-cn="'+c+'"]');if(cn)cn.textContent=n?n.toLocaleString('en-IN')+' registered':''});
+  $('#rsNote').textContent=RC.total?'Updated '+new Date().toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'})+' · refreshes every minute':'Be the first to register!';
+ }
+ function loadCounts(){
+  if(!REG_URL||REG_URL.indexOf('PASTE')===0||REG_URL.charAt(0)==='/')return;
+  fetch(REG_URL+(REG_URL.indexOf('?')>-1?'&':'?')+'action=counts',{cache:'no-store'})
+   .then(function(r){return r.json()})
+   .then(function(j){if(!j||!j.ok||!j.byCategory)return;RC={total:+j.total||0,byCategory:j.byCategory};paintCounts()})
+   .catch(function(){});
+ }
+ // after a successful registration, count it straight away, then re-check the sheet
+ function bumpCounts(rec){var n=rec.visitor2?2:1;RC.total+=n;RC.byCategory[rec.category]=(RC.byCategory[rec.category]||0)+n;if(rcShown)paintCounts();setTimeout(loadCounts,4000)}
+ loadCounts();setInterval(function(){if(!document.hidden)loadCounts()},60000);
+ document.addEventListener('visibilitychange',function(){if(!document.hidden)loadCounts()});
  $('#yr').textContent=new Date().getFullYear();
 })();
 </script>
